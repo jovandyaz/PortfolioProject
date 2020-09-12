@@ -1,11 +1,14 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
+const moment = require('moment')
 
 const stockSchema = new Schema({
-    TotalAmount: Number,  //total de acciones en cartera
-    Symbol: String,
-    DateValue: Date,  //fecha de costo actual
-    Price: Number,
+    totalAmount: Number,  //total de acciones en cartera
+    symbol: String,
+    companyName: String,
+    price: Number,
+    datePrice: Date  //fecha de costo actual
+    // datePrice: {type: String, default: moment().format("LL")}
 })
 
 const Stock = mongoose.model("stock", stockSchema)
