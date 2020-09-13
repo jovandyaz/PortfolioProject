@@ -10,7 +10,7 @@ const api = require('./server/routes/api')
 // Mongoose set up & Connecting to Mongo DB
 const mongoose = require('mongoose')
 mongoose.connect( process.env.MONGODB_URI || 'mongodb://localhost/MarketDB', 
-    { useNewUrlParser: true, useUnifiedTopology: true })
+    { useNewUrlParser: true, useUnifiedTopology: true }, { useFindAndModify: false })
 
 // Setting up express and configuring bodyParser
 app.use(express.static(path.join(__dirname, 'node_modules')))
