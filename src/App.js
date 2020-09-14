@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom'
 import axios from 'axios'
+import StockSearch from './components/StockSearch'
+import Portfolios from './components/Portfolios'
 import './styles/App.css'
 class App extends Component {
   constructor() {
@@ -8,14 +10,14 @@ class App extends Component {
     this.state = {
       dataStock: [],
       stockDB: [],
-      stock: ""
+      portfoliosDB: []
     }
   }
 
-  updateHandler = event => this.setState({ [event.target.name]: event.target.value })
+  // updateHandler = event => this.setState({ [event.target.name]: event.target.value })
 
-  getStockData = async () => {
-    const symbol = this.state.stock
+  getStockData = async (symbol) => {
+    console.log(symbol)
     try {
       const response = await axios({
         "method": "GET",
@@ -30,7 +32,7 @@ class App extends Component {
           "symbols": `${symbol}`
         }
       })
-      this.setState({ dataStock: response.data.quoteResponse.result }, ()=> console.log(this.state.dataStock))
+      this.setState({ dataStock: response.data.quoteResponse.result }, () => console.log(this.state.dataStock))
     }
     catch (error) { alert(error) }
   }
@@ -41,20 +43,28 @@ class App extends Component {
     this.setState({ stockDB: response.data })
   }
 
+  getPortfoliosDB = async () => {
+    const response = await axios.get("http://localhost:8080/portfolios")
+    console.log(response.data)
+    this.setState({ portfoliosDB: response.data })
+  }
+
   componentDidMount = async () => {
     await this.getStockDB()
+    await this.getPortfoliosDB()
   }
 
   postStock = async () => {
     let stock = this.state.dataStock[0]
-    function toDateTime(secs) { return new Date(1970, 0, 1).setSeconds(secs) }
+    // function toDateTime(secs) { return new Date(1970, 0, 1).setSeconds(secs) }
+    const toDateTime = (secs) => { return new Date(1970, 0, 1).setSeconds(secs) }
     let postStock = { symbol: stock.symbol, companyName: stock.displayName, price: stock.regularMarketPrice, datePrice: toDateTime(stock.regularMarketTime), portfolio: "5f5da506a20a658eb27e7580" }
     await axios.post("http://localhost:8080/stock", postStock)
     this.getStockDB()
   }
 
   render() {
-    const stock = this.state.dataStock
+    // const stock = this.state.dataStock
     const stockDB = this.state.stockDB
     return (
       <Router>
@@ -64,13 +74,15 @@ class App extends Component {
 
           <div id="main-links">
             <Link to="/" >Home</Link>
+            <Link to="/Portfolios" >Portfolios</Link>
             <Redirect to="/" />
           </div>
 
-          <h3>Get Stock from API</h3>
-          <input id="stock-input" type="text" placeholder="Stock" name="stock" value={this.state.name} onChange={this.updateHandler} />
-          <button onClick={this.getStockData}>Get</button>
-          {stock.map(m => <div key={m.symbol}>{m.displayName}: ${m.regularMarketPrice} <button onClick={this.postStock}>Save</button></div>)}
+          <Route path="/" exact render={() => <StockSearch stock={this.state.dataStock} getStockData={this.getStockData} />} />
+          <Route path="/portfolios" exact render={() => <Portfolios portfoliosDB={this.state.portfoliosDB} />} />
+
+          {/* {stock.map(m => <div key={m.symbol}>{m.displayName}: ${m.regularMarketPrice} <button onClick={this.postStock}>Save</button></div>)} */}
+
           <h3>Stocks DataBase</h3>
           {stockDB.map(m => <div key={m._id}>{m.companyName} ({m.symbol}): ${m.price} - {m.datePrice}</div>)}
 

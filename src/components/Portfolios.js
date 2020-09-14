@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import Portfolio from './Portfolio'
 
 export class Portfolios extends Component {
     constructor() {
@@ -8,17 +9,19 @@ export class Portfolios extends Component {
         }
     }
 
-    getStockData = () => {
+    updateHandler = event => this.setState({ [event.target.name]: event.target.value })
 
+    showPortf = (prtf) => {
+        console.log(prtf)
     }
 
     render() {
-        const stock = this.props.dataStock
+        const portfs = this.props.portfoliosDB
         return (
             <div>
                 <input id="portfolio-input" type="text" placeholder="Portfolio" name="portfolio" value={this.state.name} onChange={this.updateHandler} />
-                <button onClick={this.getStockData}>Creat </button>
-                <div>{stock.map(m => m.displayName)}</div>
+                <button >Creat</button>
+                {portfs.map(m => <Portfolio key={m._id} portfolio={m} showPortf={this.showPortf} />)}
             </div>
         )
     }

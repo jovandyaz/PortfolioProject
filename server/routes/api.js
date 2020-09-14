@@ -26,11 +26,12 @@ router.post('/stock', async (req, res) => {
     res.send(req.body)
 })
 
-router.get('/portfolios', function (req, res) {
+router.get('/portfolios', (req, res) => {
     Portfolio.find({}, function (err, portfs) {
         console.log("portfolios:\n", portfs)
         res.send(portfs)
     })
+    .populate("stocks")
 })
 
 router.post('/portfolio', function (req, res) {
