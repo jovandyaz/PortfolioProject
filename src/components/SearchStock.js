@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-export class StockSearch extends Component {
+export class SearchStock extends Component {
     constructor() {
         super()
         this.state = {
@@ -9,6 +9,22 @@ export class StockSearch extends Component {
     }
 
     updateHandler = event => this.setState({ [event.target.name]: event.target.value })
+    
+    // postStock = async () => {
+    //     let stock = this.state.dataStock[0]
+    //     // function toDateTime(secs) { return new Date(1970, 0, 1).setSeconds(secs) }
+    //     const toDateTime = (secs) => { return new Date(1970, 0, 1).setSeconds(secs) }
+    //     let postStock = {
+    //         totalAmount: 1,
+    //         symbol: stock.symbol,
+    //         companyName: stock.displayName,
+    //         price: stock.regularMarketPrice,
+    //         datePrice: toDateTime(stock.regularMarketTime),
+    //         portfolio: "5f5ed6b9b0ad7013f62751ba"
+    //     }
+    //     await axios.post("http://localhost:8080/stock", postStock)
+    //     this.getStockDB()
+    // }
 
     getStockData = async () => {
         this.props.getStockData(this.state.stock)
@@ -27,5 +43,4 @@ export class StockSearch extends Component {
     }
 }
 
-export default StockSearch
-
+export default SearchStock

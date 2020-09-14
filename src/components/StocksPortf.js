@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import StockSearch from './StockSearch'
+import SaveStock from './SaveStock'
 
 export class StocksPortf extends Component {
     constructor() {
@@ -22,7 +22,7 @@ export class StocksPortf extends Component {
         console.log(this.props)
         return (
             <div>
-                <StockSearch stock={this.props.stock} getStockData={this.props.getStockData} postStock={this.props.postStock}/>
+                <SaveStock stock={this.props.stock} portf={portf} getStockData={this.props.getStockData} postStock={this.props.postStock}/>
                 <h3>{portf.portfolioName}</h3>
                 {portf.stocks.map(m => <p key={m._id}>{m.companyName}</p>)}
             </div>
