@@ -21,7 +21,7 @@ export class StockSearch extends Component {
                 <h3>Get Stock from API</h3>
                 <input id="stock-input" type="text" placeholder="Stock" name="stock" value={this.state.name} onChange={this.updateHandler} />
                 <button onClick={this.getStockData}>Get</button>
-                {stock.map(m => <div key={m.symbol}>{m.displayName}: ${m.regularMarketPrice} </div>)}
+                {stock.map(m => <div key={m.symbol}>{m.displayName}: ${m.regularMarketPrice} <button onClick={this.props.postStock}>Save</button></div>)}
             </div>
         )
     }

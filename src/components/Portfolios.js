@@ -11,10 +11,6 @@ export class Portfolios extends Component {
 
     updateHandler = event => this.setState({ [event.target.name]: event.target.value })
 
-    showPortf = (prtf) => {
-        console.log(prtf)
-    }
-
     render() {
         const portfs = this.props.portfoliosDB
         return (

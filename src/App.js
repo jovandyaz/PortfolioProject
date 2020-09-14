@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom
 import axios from 'axios'
 import StockSearch from './components/StockSearch'
 import Portfolios from './components/Portfolios'
+import StocksPortf from './components/StocksPortf'
 import './styles/App.css'
 class App extends Component {
   constructor() {
@@ -13,8 +14,6 @@ class App extends Component {
       portfoliosDB: []
     }
   }
-
-  // updateHandler = event => this.setState({ [event.target.name]: event.target.value })
 
   getStockData = async (symbol) => {
     console.log(symbol)
@@ -58,7 +57,14 @@ class App extends Component {
     let stock = this.state.dataStock[0]
     // function toDateTime(secs) { return new Date(1970, 0, 1).setSeconds(secs) }
     const toDateTime = (secs) => { return new Date(1970, 0, 1).setSeconds(secs) }
-    let postStock = { symbol: stock.symbol, companyName: stock.displayName, price: stock.regularMarketPrice, datePrice: toDateTime(stock.regularMarketTime), portfolio: "5f5da506a20a658eb27e7580" }
+    let postStock = {
+      totalAmount: 1,
+      symbol: stock.symbol,
+      companyName: stock.displayName,
+      price: stock.regularMarketPrice,
+      datePrice: toDateTime(stock.regularMarketTime),
+      portfolio: "5f5ed6b9b0ad7013f62751ba"
+    }
     await axios.post("http://localhost:8080/stock", postStock)
     this.getStockDB()
   }
@@ -78,8 +84,9 @@ class App extends Component {
             <Redirect to="/" />
           </div>
 
-          <Route path="/" exact render={() => <StockSearch stock={this.state.dataStock} getStockData={this.getStockData} />} />
+          <Route path="/" exact render={() => <StockSearch stock={this.state.dataStock} getStockData={this.getStockData} postStock={this.postStock}/>} />
           <Route path="/portfolios" exact render={() => <Portfolios portfoliosDB={this.state.portfoliosDB} />} />
+          <Route path="/portfolio/:id" exact render={({ match }) => <StocksPortf match={match} portfoliosDB={this.state.portfoliosDB} stock={this.state.dataStock} getStockData={this.getStockData} postStock={this.postStock}/>} />
 
           {/* {stock.map(m => <div key={m.symbol}>{m.displayName}: ${m.regularMarketPrice} <button onClick={this.postStock}>Save</button></div>)} */}
 
