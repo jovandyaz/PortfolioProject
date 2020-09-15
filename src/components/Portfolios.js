@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import Portfolio from './Portfolio'
-
 export class Portfolios extends Component {
     constructor() {
         super()
@@ -16,7 +15,7 @@ export class Portfolios extends Component {
         return (
             <div>
                 <input id="portfolio-input" type="text" placeholder="Portfolio" name="portfolio" value={this.state.name} onChange={this.updateHandler} />
-                <button >Creat</button>
+                <button >Create</button>
                 {portfs.map(m => <Portfolio key={m._id} portfolio={m} showPortf={this.showPortf} />)}
             </div>
         )

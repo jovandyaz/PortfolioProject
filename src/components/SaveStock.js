@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-
 export class SaveStock extends Component {
     constructor() {
         super()
@@ -15,18 +14,12 @@ export class SaveStock extends Component {
 
     updateHandler = event => this.setState({ [event.target.name]: event.target.value })
 
-    opSelected = (event) => {
-        this.setState({
-            op: event.target.value
-        })
-    }
-
     getStockData = async () => { this.props.getStockData(this.state.stock) }
 
     postStock = () => {
         const stock = this.props.stock[0]
         const newStock = {
-            symbol: stock.symbol, 
+            symbol: stock.symbol,
             companyName: stock.displayName,
             operation: this.state.op,
             totalAmount: this.state.amount,
@@ -41,7 +34,6 @@ export class SaveStock extends Component {
 
     render() {
         const stock = this.props.stock
-        console.log(stock)
         return (
             <div>
                 <h3>Add Stock to the Portfolio</h3>
@@ -49,7 +41,7 @@ export class SaveStock extends Component {
                 <button onClick={this.getStockData}>Get</button>
                 {stock.map(m =>
                     <div key={m.symbol}>{m.displayName}: ${m.regularMarketPrice}</div>)}
-                <select id="select-input" onChange={this.opSelected}>
+                <select id="select-input" name="op" onChange={this.updateHandler}>
                     <option value="Buy">Buy</option>
                     <option value="Sell">Sell</option>
                 </select>

@@ -8,7 +8,7 @@ class App extends Component {
   constructor() {
     super()
     this.state = {
-      dataStock: [],
+      stockAPI: [],
       stockDB: [],
       portfoliosDB: []
     }
@@ -30,7 +30,7 @@ class App extends Component {
           "symbols": `${symbol}`
         }
       })
-      this.setState({ dataStock: response.data.quoteResponse.result }, () => console.log(this.state.dataStock))
+      this.setState({ stockAPI: response.data.quoteResponse.result }, () => console.log(this.state.stockAPI))
     }
     catch (error) { alert(error) }
   }
@@ -59,7 +59,6 @@ class App extends Component {
   }
 
   render() {
-    // const stock = this.state.dataStock
     const stockDB = this.state.stockDB
     return (
       <Router>
@@ -69,13 +68,12 @@ class App extends Component {
 
           <div id="main-links">
             <Link to="/" >Home</Link>
-            <Link to="/Portfolios" >Portfolios</Link>
+            <Link to="/portfolios" >Portfolios</Link>
             <Redirect to="/" />
           </div>
 
-          {/* <Route path="/" exact render={() => <SearchStock stock={this.state.dataStock} getStockData={this.getStockData} postStock={this.postStock}/>} /> */}
           <Route path="/portfolios" exact render={() => <Portfolios portfoliosDB={this.state.portfoliosDB} />} />
-          <Route path="/portfolio/:id" exact render={({ match }) => <StocksPortf match={match} portfoliosDB={this.state.portfoliosDB} stock={this.state.dataStock} getStockData={this.getStockData} postStock={this.postStock} />} />
+          <Route path="/portfolio/:id" exact render={({ match }) => <StocksPortf match={match} portfoliosDB={this.state.portfoliosDB} stock={this.state.stockAPI} getStockData={this.getStockData} postStock={this.postStock} />} />
 
           <h2>Stocks DataBase</h2>
           {stockDB.map(m => <div key={m._id}>{m.companyName} ({m.symbol}): ${m.price} - {m.datePrice}</div>)}

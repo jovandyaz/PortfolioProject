@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import SaveStock from './SaveStock'
-
 export class StocksPortf extends Component {
     constructor() {
         super()
@@ -19,12 +18,11 @@ export class StocksPortf extends Component {
         const matchID = this.props.match.params.id
         const portf = this.props.portfoliosDB[this.findPortf(matchID)]
         console.log(portf)
-        console.log(this.props)
         return (
             <div>
-                <SaveStock stock={this.props.stock} portf={portf} getStockData={this.props.getStockData} postStock={this.props.postStock}/>
+                <SaveStock stock={this.props.stock} portf={portf} getStockData={this.props.getStockData} postStock={this.props.postStock} />
                 <h3>{portf.portfolioName}</h3>
-                {portf.stocks.map(m => <p key={m._id}>{m.companyName}</p>)}
+        {portf.stocks.map(m => <p key={m._id}>{m.companyName}: ${m.price} - {m.operation}: ({m.totalAmount})</p>)}
             </div>
         )
     }
