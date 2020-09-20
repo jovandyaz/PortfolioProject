@@ -40,10 +40,10 @@ export class StocksPortf extends Component {
     }
 
     componentDidMount = async () => {
-        const portf = this.props.portfoliosDB[this.findPortf(this.props.match.params.id)]
-        console.log(portf)
+        // const portf = this.props.portfoliosDB[this.findPortf(this.props.match.params.id)]
+        // console.log(portf)
         const arraySymbols = this.props.portfoliosDB[this.findPortf(this.props.match.params.id)].stocks.map(m => m.symbol)
-        console.log(arraySymbols)
+        // console.log(arraySymbols)
         console.log(arraySymbols.toString())
         const stringSymbols = arraySymbols.toString()
         this.timer = setInterval(() => {
