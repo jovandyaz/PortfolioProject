@@ -48,7 +48,7 @@ export class SaveStock extends Component {
                 <input id="stock-amount" type="number" placeholder="Shares #" name="amount" value={this.state.name} onChange={this.updateHandler} />
                 <input id="stock-price" type="number" placeholder="Price $" name="price" value={this.state.name} onChange={this.updateHandler} />
                 <input id="stock-fee" type="number" placeholder="Fee $" name="fee" value={this.state.name} onChange={this.updateHandler} />
-                <input id="stock-fee" type="date" placeholder="Date" name="date" value={this.state.name} onChange={this.updateHandler} />
+                <input id="stock-date" type="date" placeholder="Date" name="date" value={this.state.name} onChange={this.updateHandler} />
                 <button onClick={this.postStock}>Add</button>
             </div>
         )

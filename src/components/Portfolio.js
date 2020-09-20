@@ -7,7 +7,7 @@ export class Portfolio extends Component {
         return (
             <div>
                 <Link to={`/Portfolio/${portf._id}`}>{portf.portfolioName}</Link>
-                {portf.stocks.map(m => <p key={m._id}>{m.companyName}: {m.price}</p>)}
+                {/* {portf.stocks.map(m => <p key={m._id}>{m.companyName}: {m.price}</p>)} */}
             </div>
         )
     }
