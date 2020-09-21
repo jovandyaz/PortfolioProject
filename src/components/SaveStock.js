@@ -5,9 +5,9 @@ export class SaveStock extends Component {
         this.state = {
             stock: "",
             amount: "",
-            op: "Buy",
+            operation: "Buy",
             price: "",
-            fee: "",
+            fee: 0,
             tradeDate: new Date()
         }
     }
@@ -21,7 +21,7 @@ export class SaveStock extends Component {
         const newStock = {
             symbol: stock.symbol,
             companyName: stock.displayName,
-            operation: this.state.op,
+            operation: this.state.operation,
             totalAmount: this.state.amount,
             price: this.state.price,
             fee: this.state.fee,
@@ -41,7 +41,7 @@ export class SaveStock extends Component {
                 <button onClick={this.getStockData}>Get</button>
                 {stock.map(m =>
                     <div key={m.symbol}>{m.displayName}: ${m.regularMarketPrice}</div>)}
-                <select id="select-input" name="op" onChange={this.updateHandler}>
+                <select id="select-input" name="operation" onChange={this.updateHandler}>
                     <option value="Buy">Buy</option>
                     <option value="Sell">Sell</option>
                 </select>
@@ -49,7 +49,7 @@ export class SaveStock extends Component {
                 <input id="stock-price" type="number" placeholder="Price $" name="price" value={this.state.name} onChange={this.updateHandler} />
                 <input id="stock-fee" type="number" placeholder="Fee $" name="fee" value={this.state.name} onChange={this.updateHandler} />
                 <input id="stock-date" type="date" placeholder="Date" name="date" value={this.state.name} onChange={this.updateHandler} />
-                <button onClick={this.postStock}>Add</button>
+                <button onClick={this.postStock}>Add Stock</button>
             </div>
         )
     }

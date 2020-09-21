@@ -2,17 +2,17 @@ import React, { Component } from 'react'
 import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom'
 import axios from 'axios'
 import Portfolios from './components/Portfolios'
-import StocksPortf from './components/StocksPortf'
+import PortfDetails from './components/PortfDetails'
 import './styles/App.css'
 class App extends Component {
   constructor() {
     super()
     this.state = {
+      portfoliosDB: [],
+      cashDB: [],
+      stockDB: [],
       stockAPI: [],
       stockLiveAPI: [],
-      stockDB: [],
-      portfoliosDB: [],
-      seconds: 1
     }
   }
 
@@ -36,11 +36,11 @@ class App extends Component {
         , () => console.log(this.state.stockLiveAPI)
       )
     }
-    catch (error) { alert(error) }
+    catch (error) { console.log(error) }
   }
 
   getStockData = async (symbol) => {
-    console.log(symbol)
+    // console.log(symbol)
     try {
       const response = await axios({
         "method": "GET",
@@ -60,33 +60,47 @@ class App extends Component {
     catch (error) { console.log(error) }
   }
 
-  getStockDB = async () => {
-    const response = await axios.get("http://localhost:8080/stocks")
-    console.log(response.data)
-    this.setState({ stockDB: response.data })
-  }
-
   getPortfoliosDB = async () => {
     const response = await axios.get("http://localhost:8080/portfolios")
     console.log(response.data)
     this.setState({ portfoliosDB: response.data })
   }
 
-  postStock = async (newStock) => {
-    await axios.post("http://localhost:8080/stock", newStock)
-    this.getStockDB()
-    this.getPortfoliosDB()
+  getStockDB = async () => {
+    const response = await axios.get("http://localhost:8080/stocks")
+    console.log(response.data)
+    this.setState({ stockDB: response.data })
+  }
+
+  getCashDB = async () => {
+    const response = await axios.get("http://localhost:8080/cash")
+    console.log(response.data)
+    this.setState({ cashDB: response.data })
+  }
+
+  getDBdata = async () => {
+    await this.getPortfoliosDB()
+    await this.getStockDB()
+    await this.getCashDB()
   }
 
   postPortf = async (newPortf) => {
     await axios.post("http://localhost:8080/portfolio", newPortf)
-    this.getStockDB()
-    this.getPortfoliosDB()
+    this.getDBdata()
+  }
+
+  postCash = async (newCash) => {
+    await axios.post("http://localhost:8080/cash", newCash)
+    this.getDBdata()
+  }
+
+  postStock = async (newStock) => {
+    await axios.post("http://localhost:8080/stock", newStock)
+    this.getDBdata()
   }
 
   componentDidMount = async () => {
-    await this.getStockDB()
-    await this.getPortfoliosDB()
+    await this.getDBdata()
     this.timer = setInterval(() => {
       this.getLiveStock("AAPL")
     }, 1000)
@@ -111,14 +125,16 @@ class App extends Component {
             <Redirect to="/" />
           </div>
 
-          <Route path="/portfolios" exact render={() => <Portfolios portfoliosDB={this.state.portfoliosDB} postPortf={this.postPortf}/>} />
+          <Route path="/portfolios" exact render={() => <Portfolios portfoliosDB={this.state.portfoliosDB} postPortf={this.postPortf} cashDB={this.state.cashDB}/>} />
           <Route path="/portfolio/:id" exact render={({ match }) =>
-            <StocksPortf match={match} portfoliosDB={this.state.portfoliosDB} stock={this.state.stockAPI}
-              getStockData={this.getStockData} postStock={this.postStock} />} />
+            <PortfDetails match={match} portfoliosDB={this.state.portfoliosDB}
+              stock={this.state.stockAPI} getStockData={this.getStockData} postStock={this.postStock} 
+              postCash={this.postCash} />} />
 
           <h2>Stocks DataBase</h2>
           {stockDB.map(m => <div key={m._id}>{m.companyName} ({m.symbol}): ${m.price}</div>)}
 
+          <h3>Live Data (beta)</h3>
           <h4>Symbol | Price | Post-Market</h4>
           <p>{stockLive.symbol} | {stockLive.regularMarketPrice} | {stockLive.postMarketPrice}</p>
 

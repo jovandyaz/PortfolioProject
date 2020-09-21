@@ -13,7 +13,8 @@ export class Portfolios extends Component {
     postPortf = () => {
         const newPortf = {
             portfolioName: this.state.portfolio,
-            stocks: []
+            stocks: [],
+            cash: []
         }
         this.props.postPortf(newPortf)
         console.log(newPortf)
@@ -21,11 +22,14 @@ export class Portfolios extends Component {
 
     render() {
         const portfs = this.props.portfoliosDB
+        const cash = this.props.cashDB
+        console.log(portfs)
+        console.log(cash)
         return (
             <div>
                 <input id="portfolio-input" type="text" placeholder="Portfolio" name="portfolio" value={this.state.name} onChange={this.updateHandler} />
                 <button onClick={this.postPortf}>Create</button>
-                {portfs.map(m => <Portfolio key={m._id} portfolio={m} showPortf={this.showPortf} />)}
+                {portfs.map(m => <Portfolio key={m._id} portfolio={m} />)}
             </div>
         )
     }

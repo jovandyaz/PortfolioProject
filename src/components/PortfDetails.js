@@ -1,13 +1,12 @@
 import React, { Component } from 'react'
 import SaveStock from './SaveStock'
+import SaveCash from './SaveCash'
 import axios from 'axios'
-export class StocksPortf extends Component {
+export class PortfDetails extends Component {
     constructor() {
         super()
         this.state = {
             stockLiveAPI: [],
-            portfolio: "",
-            stock: ""
         }
     }
 
@@ -42,13 +41,13 @@ export class StocksPortf extends Component {
     componentDidMount = async () => {
         // const portf = this.props.portfoliosDB[this.findPortf(this.props.match.params.id)]
         // console.log(portf)
-        const arraySymbols = this.props.portfoliosDB[this.findPortf(this.props.match.params.id)].stocks.map(m => m.symbol)
+        // const arraySymbols = this.props.portfoliosDB[this.findPortf(this.props.match.params.id)].stocks.map(m => m.symbol)
         // console.log(arraySymbols)
-        console.log(arraySymbols.toString())
-        const stringSymbols = arraySymbols.toString()
-        this.timer = setInterval(() => {
-            this.getLiveStock(stringSymbols)
-        }, 1000)
+        // console.log(arraySymbols.toString())
+        // const stringSymbols = arraySymbols.toString()
+        // this.timer = setInterval(() => {
+        //     this.getLiveStock(stringSymbols)
+        // }, 1000)
     }
 
     componentWillUnmount() {
@@ -59,15 +58,19 @@ export class StocksPortf extends Component {
         const matchID = this.props.match.params.id
         const portf = this.props.portfoliosDB[this.findPortf(matchID)]
         console.log(portf)
-        const stockLive = this.state.stockLiveAPI
-        console.log(stockLive)
+        // const stockLive = this.state.stockLiveAPI
+        // console.log(stockLive)
         return (
             <div>
                 {portf !== undefined ?
                     <div>
                         <h2>{portf.portfolioName}</h2>
-                        <SaveStock stock={this.props.stock} portf={portf} getStockData={this.props.getStockData} postStock={this.props.postStock} />
+                        <SaveCash portf={portf} postCash={this.props.postCash} />
+                        <SaveStock portf={portf}
+                            stock={this.props.stock} getStockData={this.props.getStockData} postStock={this.props.postStock} />
+                        {portf.cash.map(m => <p key={m._id}>{m.operation}: ${m.amount}</p>)}
                         {portf.stocks.map(m => <p key={m._id}>{m.companyName}: ${m.price} - {m.operation}: ({m.totalAmount})</p>)}
+
                         {/* {stockLive.stocks.map(m => <p key={m.symbol}>{m.symbol}: ${m.companyName} - {m.price}</p>)} */}
 
                         {/* <h4>Symbol | Price | Post-Market</h4>
@@ -80,4 +83,4 @@ export class StocksPortf extends Component {
     }
 }
 
-export default StocksPortf
+export default PortfDetails
