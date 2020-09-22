@@ -27,9 +27,10 @@ export class Portfolios extends Component {
         console.log(cash)
         return (
             <div>
+                {portfs.map(m => <Portfolio key={m._id} portfolio={m} />)}
+                Add a new one: 
                 <input id="portfolio-input" type="text" placeholder="Portfolio" name="portfolio" value={this.state.name} onChange={this.updateHandler} />
                 <button onClick={this.postPortf}>Create</button>
-                {portfs.map(m => <Portfolio key={m._id} portfolio={m} />)}
             </div>
         )
     }

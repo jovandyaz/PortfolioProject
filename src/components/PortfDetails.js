@@ -24,11 +24,10 @@ export class PortfDetails extends Component {
                         {portf.cash.map(m => <div key={m._id}>{m.operation}: ${m.amount}</div>)}
                         {portf.stocks.map(m =>
                             <div key={m._id}>
-                                <div>{m.companyName}: ${m.price} - {m.operation}: ({m.totalAmount}) <LiveStock symbol={m.symbol} /></div>
+                                <div>{m.companyName}: ${m.price} <LiveStock symbol={m.symbol} /></div>
                             </div>)}
-
                     </div>
-                    : <div>Loading...</div>}
+                    : null}
             </div>
         )
     }

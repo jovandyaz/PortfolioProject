@@ -20,7 +20,7 @@ export class SearchStock extends Component {
                 <button onClick={this.getStockData}>Get</button>
                 {stock !== undefined
                     ? stock.map(m => <div key={m.symbol}>{m.displayName}: ${m.regularMarketPrice} <button onClick={this.props.postStock}>Save</button></div>)
-                    : <div>Loading...</div>}
+                    : null}
             </div>
         )
     }
