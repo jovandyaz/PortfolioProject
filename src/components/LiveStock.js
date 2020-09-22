@@ -45,7 +45,7 @@ export class LiveStock extends Component {
         const stock = this.state.stockLiveAPI
         console.log(this.props.symbol)
         return (
-            <div>Live price: ${stock.regularMarketPrice} | post: ${stock.postMarketPrice}</div>
+            <span>Live price: ${stock.regularMarketPrice} | post: ${stock.postMarketPrice}</span>
         )
     }
 }
