@@ -11,13 +11,18 @@ export class Portfolios extends Component {
     updateHandler = event => this.setState({ [event.target.name]: event.target.value })
 
     postPortf = () => {
-        const newPortf = {
-            portfolioName: this.state.portfolio,
-            stocks: [],
-            cash: []
-        }
-        this.props.postPortf(newPortf)
-        console.log(newPortf)
+        if (this.state.portfolio !== "") {
+            if (window.confirm(`Do you want to add ${this.state.portfolio} as a new portfolio?`)) {
+                const newPortf = {
+                    portfolioName: this.state.portfolio,
+                    stocks: [],
+                    cash: []
+                }
+                this.props.postPortf(newPortf)
+                console.log(newPortf)
+                alert("Portfolio added")
+            } else alert("Operation canceled")
+        } else alert("Add a name, please")
     }
 
     render() {
@@ -28,7 +33,7 @@ export class Portfolios extends Component {
         return (
             <div>
                 {portfs.map(m => <Portfolio key={m._id} portfolio={m} />)}
-                Add a new one: 
+                Add a new one:
                 <input id="portfolio-input" type="text" placeholder="Portfolio" name="portfolio" value={this.state.name} onChange={this.updateHandler} />
                 <button onClick={this.postPortf}>Create</button>
             </div>

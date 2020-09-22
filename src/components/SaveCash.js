@@ -6,7 +6,7 @@ export class SaveCash extends Component {
         this.state = {
             portfolio: "",
             operation: "Deposit",
-            amount: "",
+            amount: 0,
             operationDate: new Date()
         }
     }
@@ -14,22 +14,26 @@ export class SaveCash extends Component {
     updateHandler = event => this.setState({ [event.target.name]: event.target.value })
 
     postCash = () => {
-        const cash = {
-            portfolio: this.props.portf._id,
-            operation: this.state.operation,
-            amount: this.state.amount,
-            operationDate: this.state.operationDate,
-        }
-        this.props.postCash(cash)
-        console.log(cash)
+        if (this.state.amount !== "" && parseInt(this.state.amount) > 0) {
+            if (window.confirm(`Do you want to do a ${this.state.operation} of $${this.state.amount}?`)) {
+                const cash = {
+                    portfolio: this.props.portf._id,
+                    operation: this.state.operation,
+                    amount: this.state.amount,
+                    operationDate: this.state.operationDate,
+                }
+                this.props.postCash(cash)
+                console.log(cash)
+                alert("Operation done")
+            } else alert("Operation canceled")
+        } else alert("Add an amount, please")
     }
 
     render() {
         return (
             <div>
                 <h3>Manage cash in this portfolio</h3>
-                {/* <h4>{this.props.cash.amount}</h4> */}
-                <input id="cash-input" type="number" placeholder="Cash" name="amount" value={this.state.name} onChange={this.updateHandler} />
+                <input id="cash-input" type="number" min="0" placeholder="Amount" name="amount" value={this.state.name} onChange={this.updateHandler} />
                 <select id="select-input" name="operation" onChange={this.updateHandler}>
                     <option value="Deposit">Deposit</option>
                     <option value="Withdraw">Withdraw</option>

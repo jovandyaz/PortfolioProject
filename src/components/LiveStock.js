@@ -28,7 +28,7 @@ export class LiveStock extends Component {
                 , () => console.log(this.state.stockLiveAPI)
             )
         }
-        catch (error) { alert(error) }
+        catch (error) { console.log(error) }
     }
 
     componentDidMount = () => {
