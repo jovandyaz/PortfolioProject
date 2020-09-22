@@ -62,22 +62,20 @@ class App extends Component {
 
   postPortf = async (newPortf) => {
     await axios.post("http://localhost:8080/portfolio", newPortf)
-    this.getDBdata()
-  }
-
-  postCash = async (newCash) => {
-    await axios.post("http://localhost:8080/cash", newCash)
-    this.getDBdata()
+    await this.getDBdata()
   }
 
   postStock = async (newStock) => {
     await axios.post("http://localhost:8080/stock", newStock)
-    this.getDBdata()
-  }
-
-  componentDidMount = async () => {
     await this.getDBdata()
   }
+
+  postCash = async (newCash) => {
+    await axios.post("http://localhost:8080/cash", newCash)
+    await this.getDBdata()
+  }
+
+  componentDidMount = async () => await this.getDBdata()
 
   render() {
     const stockDB = this.state.stockDB
@@ -93,10 +91,10 @@ class App extends Component {
             <Redirect to="/" />
           </div>
 
-          <Route path="/portfolios" exact render={() => <Portfolios portfoliosDB={this.state.portfoliosDB} postPortf={this.postPortf} cashDB={this.state.cashDB}/>} />
+          <Route path="/portfolios" exact render={() => <Portfolios portfoliosDB={this.state.portfoliosDB} postPortf={this.postPortf} cashDB={this.state.cashDB} />} />
           <Route path="/portfolio/:id" exact render={({ match }) =>
             <PortfDetails match={match} portfoliosDB={this.state.portfoliosDB}
-              stock={this.state.stockAPI} getStockData={this.getStockData} postStock={this.postStock} 
+              stock={this.state.stockAPI} getStockData={this.getStockData} postStock={this.postStock}
               postCash={this.postCash} />} />
 
           <h2>Stocks DataBase</h2>

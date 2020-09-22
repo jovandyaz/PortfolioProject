@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
+import SearchStock from './SearchStock'
 export class SaveStock extends Component {
     constructor() {
         super()
         this.state = {
-            stock: "",
             amount: "",
             operation: "Buy",
             price: "",
@@ -14,7 +14,7 @@ export class SaveStock extends Component {
 
     updateHandler = event => this.setState({ [event.target.name]: event.target.value })
 
-    getStockData = async () => { this.props.getStockData(this.state.stock) }
+    getStockData = async (symbol) => { await this.props.getStockData(symbol) }
 
     postStock = () => {
         const stock = this.props.stock[0]
@@ -25,7 +25,7 @@ export class SaveStock extends Component {
             totalAmount: this.state.amount,
             price: this.state.price,
             fee: this.state.fee,
-            datePrice: this.state.tradeDate,
+            priceDate: this.state.tradeDate,
             portfolio: this.props.portf._id
         }
         this.props.postStock(newStock)
@@ -37,8 +37,7 @@ export class SaveStock extends Component {
         return (
             <div>
                 <h3>Add Stock to the Portfolio</h3>
-                <input id="stock-input" type="text" placeholder="Stock" name="stock" value={this.state.name} onChange={this.updateHandler} />
-                <button onClick={this.getStockData}>Get</button>
+                <SearchStock getStockData={this.getStockData} />
                 {stock.map(m =>
                     <div key={m.symbol}>{m.displayName}: ${m.regularMarketPrice}</div>)}
                 <select id="select-input" name="operation" onChange={this.updateHandler}>
@@ -48,7 +47,7 @@ export class SaveStock extends Component {
                 <input id="stock-amount" type="number" placeholder="Shares #" name="amount" value={this.state.name} onChange={this.updateHandler} />
                 <input id="stock-price" type="number" placeholder="Price $" name="price" value={this.state.name} onChange={this.updateHandler} />
                 <input id="stock-fee" type="number" placeholder="Fee $" name="fee" value={this.state.name} onChange={this.updateHandler} />
-                <input id="stock-date" type="date" placeholder="Date" name="date" value={this.state.name} onChange={this.updateHandler} />
+                <input id="stock-date" type="date" placeholder="Date" name="tradeDate" value={this.state.name} onChange={this.updateHandler} />
                 <button onClick={this.postStock}>Add Stock</button>
             </div>
         )

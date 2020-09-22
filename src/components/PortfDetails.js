@@ -22,10 +22,13 @@ export class PortfDetails extends Component {
                         <SaveStock portf={portf}
                             stock={this.props.stock} getStockData={this.props.getStockData} postStock={this.props.postStock} />
                         {portf.cash.map(m => <div key={m._id}>{m.operation}: ${m.amount}</div>)}
-                        {portf.stocks.map(m => <div key={m._id}>{m.companyName}: ${m.price} - {m.operation}: ({m.totalAmount}) <LiveStock symbol={m.symbol} /> </div>)}
+                        {portf.stocks.map(m =>
+                            <div key={m._id}>
+                                <div>{m.companyName}: ${m.price} - {m.operation}: ({m.totalAmount}) <LiveStock symbol={m.symbol} /></div>
+                            </div>)}
 
                     </div>
-                    : null}
+                    : <div>Loading...</div>}
             </div>
         )
     }

@@ -31,7 +31,7 @@ export class LiveStock extends Component {
         catch (error) { alert(error) }
     }
 
-    componentDidMount = async () => {
+    componentDidMount = () => {
         this.timer = setInterval(() => {
             this.getLiveStock(this.props.symbol)
         }, 1000)
@@ -45,9 +45,7 @@ export class LiveStock extends Component {
         const stock = this.state.stockLiveAPI
         console.log(this.props.symbol)
         return (
-            <div>
-                Live price: ${stock.regularMarketPrice} | post: ${stock.postMarketPrice}
-            </div>
+            <div>Live price: ${stock.regularMarketPrice} | post: ${stock.postMarketPrice}</div>
         )
     }
 }
