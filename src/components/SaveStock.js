@@ -22,7 +22,7 @@ export class SaveStock extends Component {
             symbol: stock.symbol,
             companyName: stock.displayName,
             operation: this.state.operation,
-            totalAmount: this.state.amount,
+            amount: this.state.amount,
             price: this.state.price,
             fee: this.state.fee,
             priceDate: this.state.tradeDate,

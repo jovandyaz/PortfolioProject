@@ -6,8 +6,8 @@ const stockSchema = new Schema({
     symbol: String,
     companyName: String,
     operation: String,
-    totalAmount: Number,  //total de acciones en cartera
-    price: Number,
+    amount: Number,  // número de acciones compradas / vendidas
+    price: Number,  // precio al cual se compró / vendió la acción
     fee: Number,
     priceDate: Date,  //costo en la fecha de operación // datePrice: {type: String, default: moment().format("LL")}
     portfolio: { type: Schema.Types.ObjectId, ref: 'Portfolio' }

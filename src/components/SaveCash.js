@@ -14,7 +14,7 @@ export class SaveCash extends Component {
     updateHandler = event => this.setState({ [event.target.name]: event.target.value })
 
     postCash = () => {
-        if (this.state.amount !== "" && parseInt(this.state.amount) > 0) {
+        if (this.state.amount !== "" && parseFloat(this.state.amount) > 0) {
             if (window.confirm(`Do you want to do a ${this.state.operation} of $${this.state.amount}?`)) {
                 const cash = {
                     portfolio: this.props.portf._id,

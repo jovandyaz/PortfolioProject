@@ -5,9 +5,9 @@ const path = require('path')
 const bodyParser = require('body-parser')
 
 //Internal Modules Imports
-const portfolio = require('./server/routes/portfolio')
-const cash = require('./server/routes/cash')
-const stock = require('./server/routes/stock')
+const portfolio = require('./server/routes/portfolioRoute')
+const cash = require('./server/routes/cashRoute')
+const stock = require('./server/routes/stockRoute')
 
 // Mongoose set up & Connecting to Mongo DB
 const mongoose = require('mongoose')

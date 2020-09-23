@@ -10,20 +10,26 @@ router.get('/stocks', function (req, res) {
     })
 })
 
-router.post('/stock', async (req, res) => {
-    console.log("posting stock: ", req.body)
+router.get('/stocks/:idPortf', function (req, res) {
+    Stock.find({}, function (err, stocks) {
+        // console.log("stocks:\n", stocks)
+        res.send(stocks)
+    })
+})
+
+router.post('/stock', function (req, res) {
+    // console.log("receiving stock: ", req.body)
     const newStock = new Stock(req.body)
     newStock.save(async (err, stock) => {
-        console.log(stock)
+        console.log("stock: ", stock)
         await Portfolio
             .findByIdAndUpdate({ _id: newStock.portfolio }, {
                 $push: {
                     stocks: newStock._id
                 }
             })
-        // .exec(function (err, res) { console.log(res) })
     })
-    res.send(req.body)
+    res.send(newStock)
 })
 
 module.exports = router
