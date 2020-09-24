@@ -1,10 +1,9 @@
 import React, { Component } from 'react'
-
-export class SaveCash extends Component {
+import axios from "axios"
+export class AddCashOp extends Component {
     constructor() {
         super()
         this.state = {
-            portfolio: "",
             operation: "Deposit",
             amount: 0,
             operationDate: new Date()
@@ -13,7 +12,7 @@ export class SaveCash extends Component {
 
     updateHandler = event => this.setState({ [event.target.name]: event.target.value })
 
-    postCash = () => {
+    postCash = async () => {
         if (this.state.amount !== "" && parseFloat(this.state.amount) > 0) {
             if (window.confirm(`Do you want to do a ${this.state.operation} of $${this.state.amount}?`)) {
                 const cash = {
@@ -22,7 +21,7 @@ export class SaveCash extends Component {
                     amount: this.state.amount,
                     operationDate: this.state.operationDate,
                 }
-                this.props.postCash(cash)
+                await axios.post("http://localhost:8080/cash", cash)
                 console.log(cash)
                 alert("Operation done")
             } else alert("Operation canceled")
@@ -45,4 +44,4 @@ export class SaveCash extends Component {
     }
 }
 
-export default SaveCash
+export default AddCashOp

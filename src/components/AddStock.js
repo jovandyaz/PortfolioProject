@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import SearchStock from './SearchStock'
-export class SaveStock extends Component {
+import axios from "axios"
+export class AddStock extends Component {
     constructor() {
         super()
         this.state = {
@@ -14,10 +14,8 @@ export class SaveStock extends Component {
 
     updateHandler = event => this.setState({ [event.target.name]: event.target.value })
 
-    getStockData = async (symbol) => { await this.props.getStockData(symbol) }
-
-    postStock = () => {
-        const stock = this.props.stock[0]
+    postStock = async () => {
+        const stock = this.props.dataStock
         const newStock = {
             symbol: stock.symbol,
             companyName: stock.displayName,
@@ -28,18 +26,14 @@ export class SaveStock extends Component {
             priceDate: this.state.tradeDate,
             portfolio: this.props.portf._id
         }
-        this.props.postStock(newStock)
+        // this.props.postStock(newStock)
+        await axios.post("http://localhost:8080/stock", newStock)
         console.log(newStock)
     }
 
     render() {
-        const stock = this.props.stock
         return (
             <div>
-                <h3>Add Stock to the Portfolio</h3>
-                <SearchStock getStockData={this.getStockData} />
-                {stock.map(m =>
-                    <div key={m.symbol}>{m.displayName}: ${m.regularMarketPrice}</div>)}
                 <select id="select-input" name="operation" onChange={this.updateHandler}>
                     <option value="Buy">Buy</option>
                     <option value="Sell">Sell</option>
@@ -54,5 +48,5 @@ export class SaveStock extends Component {
     }
 }
 
-export default SaveStock
+export default AddStock
 

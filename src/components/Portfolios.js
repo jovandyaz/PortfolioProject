@@ -1,47 +1,58 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import Portfolio from './Portfolio'
+import AddPortfolio from './AddPortfolio'
 export class Portfolios extends Component {
     constructor() {
         super()
         this.state = {
-            portfolio: "",
-            current: "USD"
+            portfoliosDB: [],
+            cashDB: [],
+            stockDB: []
         }
+    }
+
+    getPortfoliosDB = async () => {
+        const response = await axios.get("http://localhost:8080/portfolios")
+        // console.log(response.data)
+        this.setState({ portfoliosDB: response.data })
+    }
+
+    getCashDB = async () => {
+        const response = await axios.get("http://localhost:8080/cash")
+        // console.log(response.data)
+        this.setState({ cashDB: response.data })
+    }
+
+    getStockDB = async () => {
+        const response = await axios.get("http://localhost:8080/stocks")
+        // console.log(response.data)
+        this.setState({ stockDB: response.data })
     }
 
     updateHandler = event => this.setState({ [event.target.name]: event.target.value })
 
-    postPortf = async () => {
-        if (this.state.portfolio !== "") {
-            if (window.confirm(`Do you want to add ${this.state.portfolio} as a new portfolio?`)) {
-                const newPortf = {
-                    portfolioName: this.state.portfolio,
-                    current: this.state.current,
-                    stocks: [],
-                    cash: []
-                }
-                // this.props.postPortf(newPortf)
-                await axios.post("http://localhost:8080/portfolio", newPortf)
-                console.log(newPortf)
-                alert("Portfolio added")
-            } else alert("Operation canceled")
-        } else alert("Add a name, please")
+    getDBdata = async () => {
+        await this.getPortfoliosDB()
+        await this.getCashDB()
+        await this.getStockDB()
     }
 
+    componentDidMount = async () => await this.getDBdata()
+
     render() {
-        const portfs = this.props.portfoliosDB
+        const stockDB = this.state.stockDB
+        const portfs = this.state.portfoliosDB
         console.log(portfs)
         return (
             <div>
                 {portfs.map(m => <Portfolio key={m._id} portfolio={m} />)}
-                Add a new one:
-                <input id="portfolio-input" type="text" placeholder="Portfolio" name="portfolio" value={this.state.name} onChange={this.updateHandler} />
-                <select id="select-input" name="current" onChange={this.updateHandler}>
-                    <option value="USD">USD</option>
-                    <option value="MXN">MXN</option>
-                </select>
-                <button onClick={this.postPortf}>Create</button>
+                <AddPortfolio getPortfoliosDB={this.getPortfoliosDB}/>
+
+                <h2>Stocks DataBase</h2>
+                {stockDB.map((m) => (
+                    <div key={m._id}>{m.companyName} ({m.symbol}): ${m.price}</div>
+                ))}
             </div>
         )
     }
