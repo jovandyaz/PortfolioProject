@@ -23,25 +23,22 @@ export class PortfDetails extends Component {
         // console.log(symbol)
         try {
             const response = await axios({
-                method: "GET",
-                url:
-                    "https://yahoo-finance-low-latency.p.rapidapi.com/v6/finance/quote",
-                headers: {
+                "method": "GET",
+                "url": "https://yahoo-finance-low-latency.p.rapidapi.com/v6/finance/quote",
+                "headers": {
                     "content-type": "application/octet-stream",
                     "x-rapidapi-host": "yahoo-finance-low-latency.p.rapidapi.com",
-                    //   "x-rapidapi-key": "57ae4cfc65msh4d184d0863c6a8bp12a226jsn42ada5b35177", // jvaonam@me.com
-                    "x-rapidapi-key": "a12a1e5f76msh3441869bfa154bfp1dbcadjsnd030ce2b2055", // jovannotty@gmail.com
-                    useQueryString: true,
+                    "x-rapidapi-key": "57ae4cfc65msh4d184d0863c6a8bp12a226jsn42ada5b35177", // jvaonam@me.com
+                    // "x-rapidapi-key": "a12a1e5f76msh3441869bfa154bfp1dbcadjsnd030ce2b2055", // jovannotty@gmail.com
+                    "useQueryString": true,
                 },
-                params: {
-                    lang: "en",
-                    symbols: `${symbol}`,
-                },
+                "params": {
+                    "lang": "en",
+                    "symbols": `${symbol}`,
+                }
             })
             this.setState({ stockAPI: response.data.quoteResponse.result[0] }, () => console.log(this.state.stockAPI))
-        } catch (error) {
-            console.log(error)
-        }
+        } catch (error) { console.log(error) }
     }
 
     findPortf = (id) => {

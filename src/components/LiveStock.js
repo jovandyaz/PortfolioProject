@@ -17,10 +17,11 @@ export class LiveStock extends Component {
                 "headers": {
                     "content-type": "application/octet-stream",
                     "x-rapidapi-host": "yahoo-finance-low-latency.p.rapidapi.com",
-                    // "x-rapidapi-key": "57ae4cfc65msh4d184d0863c6a8bp12a226jsn42ada5b35177",  // jvaonam@me.com
-                    "x-rapidapi-key": "a12a1e5f76msh3441869bfa154bfp1dbcadjsnd030ce2b2055",  // jovannotty@gmail.com
+                    "x-rapidapi-key": "57ae4cfc65msh4d184d0863c6a8bp12a226jsn42ada5b35177",  // jvaonam@me.com
+                    // "x-rapidapi-key": "a12a1e5f76msh3441869bfa154bfp1dbcadjsnd030ce2b2055",  // jovannotty@gmail.com
                     "useQueryString": true
-                }, "params": {
+                },
+                "params": {
                     "lang": "en",
                     "symbols": `${symbol}`
                 }
@@ -32,13 +33,13 @@ export class LiveStock extends Component {
         catch (error) { console.log(error) }
     }
 
-    componentDidMount = async () => {
-        this.timer = setInterval(() => {
-            this.getLiveStock(this.props.symbol)
-        }, 1000)
-    }
+    // componentDidMount = async () => {
+    //     this.timer = setInterval(() => {
+    //         this.getLiveStock(this.props.symbol)
+    //     }, 1000)
+    // }
 
-    componentWillUnmount = () => clearTimeout(this.timer)
+    // componentWillUnmount = () => clearTimeout(this.timer)
 
     render() {
         const stock = this.state.stockLiveAPI

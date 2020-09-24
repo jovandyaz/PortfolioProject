@@ -13,7 +13,7 @@ export class AddCashOp extends Component {
     updateHandler = event => this.setState({ [event.target.name]: event.target.value })
 
     postCash = async () => {
-        if (this.state.amount !== "" && parseFloat(this.state.amount) > 0) {
+        if (parseFloat(this.state.amount) > 0) {
             if (window.confirm(`Do you want to do a ${this.state.operation} of $${this.state.amount}?`)) {
                 const cash = {
                     portfolio: this.props.portf._id,

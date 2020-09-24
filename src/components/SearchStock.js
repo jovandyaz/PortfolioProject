@@ -16,9 +16,9 @@ export class SearchStock extends Component {
             <div>
                 <input id="stock-input" type="text" placeholder="Search Stock" name="stock" value={this.state.name} onChange={this.updateHandler} />
                 <button onClick={this.getStockData}>Get</button>
-                {dataStock.displayName
-                    ? <div>{dataStock.displayName}: ${dataStock.regularMarketPrice}</div>
-                    : null}
+                {dataStock !== undefined
+                    ? dataStock.displayName ? <div>{dataStock.displayName}: ${dataStock.regularMarketPrice}</div> : null
+                    : <div>Stock no finded, try again</div>}
             </div>
         )
     }
