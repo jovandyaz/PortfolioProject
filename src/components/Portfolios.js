@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import axios from 'axios'
 import Portfolio from './Portfolio'
 export class Portfolios extends Component {
     constructor() {
@@ -11,7 +12,7 @@ export class Portfolios extends Component {
 
     updateHandler = event => this.setState({ [event.target.name]: event.target.value })
 
-    postPortf = () => {
+    postPortf = async () => {
         if (this.state.portfolio !== "") {
             if (window.confirm(`Do you want to add ${this.state.portfolio} as a new portfolio?`)) {
                 const newPortf = {
@@ -20,7 +21,8 @@ export class Portfolios extends Component {
                     stocks: [],
                     cash: []
                 }
-                this.props.postPortf(newPortf)
+                // this.props.postPortf(newPortf)
+                await axios.post("http://localhost:8080/portfolio", newPortf)
                 console.log(newPortf)
                 alert("Portfolio added")
             } else alert("Operation canceled")
@@ -29,9 +31,7 @@ export class Portfolios extends Component {
 
     render() {
         const portfs = this.props.portfoliosDB
-        const cash = this.props.cashDB
         console.log(portfs)
-        console.log(cash)
         return (
             <div>
                 {portfs.map(m => <Portfolio key={m._id} portfolio={m} />)}
