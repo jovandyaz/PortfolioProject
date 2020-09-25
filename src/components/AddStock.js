@@ -16,7 +16,7 @@ export class AddStock extends Component {
 
     postStock = async () => {
         if (parseFloat(this.state.amount) > 0 && parseFloat(this.state.price) > 0) {
-            if (window.confirm(`Do you want to add a ${this.props.dataStock.symbol}`)) {
+            if (window.confirm(`Do you want to add ${this.props.dataStock.symbol}`)) {
 
                 const stock = this.props.dataStock
                 const newStock = {
@@ -38,12 +38,14 @@ export class AddStock extends Component {
         } else alert("Add the info, please")
     }
 
+    handleSubmit = event => event.preventDefault() 
+
     render() {
         const dataS = this.props.dataStock
         return (
             <div>
                 {dataS !== undefined && Object.keys(dataS).length !== 0
-                    ? <div>
+                    ? <form onSubmit={this.handleSubmit}>
                         <select id="select-input" name="operation" onChange={this.updateHandler}>
                             <option value="Buy">Buy</option>
                             <option value="Sell">Sell</option>
@@ -53,7 +55,7 @@ export class AddStock extends Component {
                         <input id="stock-fee" type="number" min="0" placeholder="Fee $" name="fee" value={this.state.name} onChange={this.updateHandler} />
                         <input id="stock-date" type="date" placeholder="Date" name="tradeDate" value={this.state.name} onChange={this.updateHandler} />
                         <button onClick={this.postStock}>Add Stock</button>
-                    </div>
+                    </form>
                     : null}
             </div>
         )

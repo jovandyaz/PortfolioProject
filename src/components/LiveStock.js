@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 export class LiveStock extends Component {
+    _isMounted = false
+
     constructor() {
         super()
         this.state = {
@@ -9,7 +11,7 @@ export class LiveStock extends Component {
     }
 
     getLiveStock = async (symbol) => {
-        // console.log(symbol)
+        this._isMounted = true
         try {
             const response = await axios({
                 "method": "GET",
@@ -27,22 +29,25 @@ export class LiveStock extends Component {
                     "symbols": `${symbol}`
                 }
             })
-            this.setState({ stockLiveAPI: response.data.quoteResponse.result[0] }
-                , () => console.log(this.state.stockLiveAPI)
-            )
+            if (this._isMounted) {
+                this.setState({ stockLiveAPI: response.data.quoteResponse.result[0] }
+                    , () => console.log(this.state.stockLiveAPI)
+                )
+            }
         }
         catch (error) { console.log(error) }
     }
-
+    
     componentDidMount() {
         this.timer = setInterval(
             () => this.getLiveStock(this.props.symbol),
-            1000
+            5000
         )
     }
-
+    
     componentWillUnmount() {
-        clearInterval(this.timerID);
+        this._isMounted = false
+        clearInterval(this.timer)
     }
 
     render() {

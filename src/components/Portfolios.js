@@ -46,13 +46,17 @@ export class Portfolios extends Component {
         console.log(portfs)
         return (
             <div>
-                {portfs.map(m => <Portfolio key={m._id} portfolio={m} />)}
-                <AddPortfolio getPortfoliosDB={this.getPortfoliosDB} />
+                {portfs !== undefined && portfs.length !== 0
+                    ? <div>
+                        {portfs.map(m => <Portfolio key={m._id} portfolio={m} />)}
+                        <AddPortfolio getPortfoliosDB={this.getPortfoliosDB} />
 
-                <h2>Stocks DataBase</h2>
-                {stockDB.map((m) => (
-                    <div key={m._id}>{m.companyName} ({m.symbol}): ${m.price}</div>
-                ))}
+                        <h2>Stocks DataBase</h2>
+                        {stockDB.map((m) => (
+                            <div key={m._id}>{m.companyName} ({m.symbol}): ${m.price}</div>
+                        ))}
+                    </div>
+                    : <div>Loading...</div>}
             </div>
         )
     }

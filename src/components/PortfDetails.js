@@ -71,6 +71,7 @@ export class PortfDetails extends Component {
                             </div>)}
                         <h3>Add Stock to the Portfolio</h3>
                         <SearchStock getStockData={this.getStockData} dataStock={this.state.stockAPI} />
+                        <br />
                         <AddStock portf={portf} dataStock={this.state.stockAPI} getPortfoliosDB={this.getPortfoliosDB}/>
                     </div>
                     : null}

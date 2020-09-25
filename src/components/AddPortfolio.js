@@ -26,20 +26,22 @@ export class AddPortfolio extends Component {
             } else alert("Operation canceled")
         } else alert("Add a name, please")
     }
+    
+    handleSubmit = event => event.preventDefault() 
 
     componentDidMount = async () => await this.props.getPortfoliosDB()
 
     render() {
         return (
-            <div>
-              Add a new one:
+            <form onSubmit={this.handleSubmit}>
+                <label>Write a new one:</label>
                 <input id="portfolio-input" type="text" placeholder="Portfolio" name="portfolio" value={this.state.name} onChange={this.updateHandler} />
                 <select id="select-input" name="current" onChange={this.updateHandler}>
                     <option value="USD">USD</option>
                     <option value="MXN">MXN</option>
                 </select>
                 <button onClick={this.postPortf}>Create</button>
-            </div>
+            </form>
         )
     }
 }

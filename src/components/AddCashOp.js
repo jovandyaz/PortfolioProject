@@ -29,10 +29,12 @@ export class AddCashOp extends Component {
         } else alert("Add an amount, please")
     }
 
+    handleSubmit = event => event.preventDefault() 
+
     render() {
         return (
-            <div>
-                <h3>Manage cash in this portfolio</h3>
+            <form onSubmit={this.handleSubmit}>
+                <label>Manage cash in this portfolio</label>
                 <input id="cash-input" type="number" min="0" placeholder="Amount" name="amount" value={this.state.name} onChange={this.updateHandler} />
                 <select id="select-input" name="operation" onChange={this.updateHandler}>
                     <option value="Deposit">Deposit</option>
@@ -40,7 +42,7 @@ export class AddCashOp extends Component {
                 </select>
                 <input id="cash-date" type="date" placeholder="Date" name="operationDate" value={this.state.name} onChange={this.updateHandler} />
                 <button onClick={this.postCash}>Update Cash</button>
-            </div>
+            </form>
         )
     }
 }
