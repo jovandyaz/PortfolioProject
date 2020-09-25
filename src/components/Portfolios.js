@@ -47,7 +47,7 @@ export class Portfolios extends Component {
         return (
             <div>
                 {portfs.map(m => <Portfolio key={m._id} portfolio={m} />)}
-                <AddPortfolio getPortfoliosDB={this.getPortfoliosDB}/>
+                <AddPortfolio getPortfoliosDB={this.getPortfoliosDB} />
 
                 <h2>Stocks DataBase</h2>
                 {stockDB.map((m) => (

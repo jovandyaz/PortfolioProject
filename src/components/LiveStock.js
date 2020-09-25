@@ -17,8 +17,9 @@ export class LiveStock extends Component {
                 "headers": {
                     "content-type": "application/octet-stream",
                     "x-rapidapi-host": "yahoo-finance-low-latency.p.rapidapi.com",
-                    "x-rapidapi-key": "57ae4cfc65msh4d184d0863c6a8bp12a226jsn42ada5b35177",  // jvaonam@me.com
-                    // "x-rapidapi-key": "a12a1e5f76msh3441869bfa154bfp1dbcadjsnd030ce2b2055",  // jovannotty@gmail.com
+                    // "x-rapidapi-key": "57ae4cfc65msh4d184d0863c6a8bp12a226jsn42ada5b35177",  // jvaonam@me.com (GitHub)
+                    // "x-rapidapi-key": "a12a1e5f76msh3441869bfa154bfp1dbcadjsnd030ce2b2055",  // jovannotty@gmail.com (Google)
+                    "x-rapidapi-key": "d00737ebddmsh1018c9751fd92c2p1e1569jsn56af2bf110ab",  // thejam_17@hotmail.com (Fb)
                     "useQueryString": true
                 },
                 "params": {
@@ -33,17 +34,19 @@ export class LiveStock extends Component {
         catch (error) { console.log(error) }
     }
 
-    // componentDidMount = async () => {
-    //     this.timer = setInterval(() => {
-    //         this.getLiveStock(this.props.symbol)
-    //     }, 1000)
-    // }
+    componentDidMount() {
+        this.timer = setInterval(
+            () => this.getLiveStock(this.props.symbol),
+            1000
+        )
+    }
 
-    // componentWillUnmount = () => clearTimeout(this.timer)
+    componentWillUnmount() {
+        clearInterval(this.timerID);
+    }
 
     render() {
         const stock = this.state.stockLiveAPI
-        // console.log(this.props.symbol)
         return (
             <span>${stock.regularMarketPrice} | ${stock.postMarketPrice}</span>
         )

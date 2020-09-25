@@ -6,7 +6,7 @@ export class AddCashOp extends Component {
         this.state = {
             operation: "Deposit",
             amount: 0,
-            operationDate: new Date()
+            operationDate: new Date().toLocaleTimeString()
         }
     }
 
@@ -22,8 +22,9 @@ export class AddCashOp extends Component {
                     operationDate: this.state.operationDate,
                 }
                 await axios.post("http://localhost:8080/cash", cash)
-                console.log(cash)
                 alert("Operation done")
+                console.log(cash)
+                this.props.getPortfoliosDB()
             } else alert("Operation canceled")
         } else alert("Add an amount, please")
     }

@@ -28,8 +28,9 @@ export class PortfDetails extends Component {
                 "headers": {
                     "content-type": "application/octet-stream",
                     "x-rapidapi-host": "yahoo-finance-low-latency.p.rapidapi.com",
-                    "x-rapidapi-key": "57ae4cfc65msh4d184d0863c6a8bp12a226jsn42ada5b35177", // jvaonam@me.com
-                    // "x-rapidapi-key": "a12a1e5f76msh3441869bfa154bfp1dbcadjsnd030ce2b2055", // jovannotty@gmail.com
+                    // "x-rapidapi-key": "57ae4cfc65msh4d184d0863c6a8bp12a226jsn42ada5b35177", // jvaonam@me.com (GitHub)
+                    // "x-rapidapi-key": "a12a1e5f76msh3441869bfa154bfp1dbcadjsnd030ce2b2055", // jovannotty@gmail.com (Google)
+                    "x-rapidapi-key": "d00737ebddmsh1018c9751fd92c2p1e1569jsn56af2bf110ab",  // thejam_17@hotmail.com (Fb)
                     "useQueryString": true,
                 },
                 "params": {
@@ -46,7 +47,9 @@ export class PortfDetails extends Component {
         return index
     }
 
-    componentDidMount = async () => await this.getPortfoliosDB()
+    componentDidMount = async () => {
+        await this.getPortfoliosDB()
+    }
 
     render() {
         const matchID = this.props.match.params.id
@@ -57,20 +60,18 @@ export class PortfDetails extends Component {
                 {portf !== undefined ?
                     <div>
                         <h2>{portf.portfolioName}</h2>
-                        <AddCashOp portf={portf} postCash={this.props.postCash} />
+                        <AddCashOp portf={portf} getPortfoliosDB={this.getPortfoliosDB}/>
                         <h3>Cash history:</h3>
                         {portf.cash.map(m => <div key={m._id}>{m.operation}: ${m.amount}</div>)}
                         <h3>Stocks:</h3>
                         <h4>Symbol | Av Cost | Price | Post Market</h4>
                         {portf.stocks.map(m =>
                             <div key={m._id}>
-                                <div>{m.symbol} | $ |
-                                <LiveStock symbol={m.symbol} />
-                                </div>
+                                <div>{m.symbol} | $ | <LiveStock symbol={m.symbol} /> </div>
                             </div>)}
                         <h3>Add Stock to the Portfolio</h3>
                         <SearchStock getStockData={this.getStockData} dataStock={this.state.stockAPI} />
-                        <AddStock portf={portf} dataStock={this.state.stockAPI} />
+                        <AddStock portf={portf} dataStock={this.state.stockAPI} getPortfoliosDB={this.getPortfoliosDB}/>
                     </div>
                     : null}
             </div>
