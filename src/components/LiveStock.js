@@ -1,57 +1,42 @@
 import React, { Component } from 'react'
-import axios from 'axios'
-export class LiveStock extends Component {
+import { stockAPI } from '../config/stockAPI'
+class LiveStock extends Component {
     _isMounted = false
 
     constructor() {
         super()
         this.state = {
-            stockLiveAPI: {},
+            stockData: {},
         }
     }
+
+    // componentDidMount() {
+    //     this.timer = setInterval(
+    //         () => this.getLiveStock(this.props.symbol),
+    //         3000
+    //     )
+    // }
 
     getLiveStock = async (symbol) => {
         this._isMounted = true
         try {
-            const response = await axios({
-                "method": "GET",
-                "url": "https://yahoo-finance-low-latency.p.rapidapi.com/v6/finance/quote",
-                "headers": {
-                    "content-type": "application/octet-stream",
-                    "x-rapidapi-host": "yahoo-finance-low-latency.p.rapidapi.com",
-                    // "x-rapidapi-key": "57ae4cfc65msh4d184d0863c6a8bp12a226jsn42ada5b35177",  // jvaonam@me.com (GitHub)
-                    // "x-rapidapi-key": "a12a1e5f76msh3441869bfa154bfp1dbcadjsnd030ce2b2055",  // jovannotty@gmail.com (Google)
-                    "x-rapidapi-key": "d00737ebddmsh1018c9751fd92c2p1e1569jsn56af2bf110ab",  // thejam_17@hotmail.com (Fb)
-                    "useQueryString": true
-                },
-                "params": {
-                    "lang": "en",
-                    "symbols": `${symbol}`
-                }
-            })
+            const stockData = await stockAPI.getRequest(symbol)
             if (this._isMounted) {
-                this.setState({ stockLiveAPI: response.data.quoteResponse.result[0] }
-                    , () => console.log(this.state.stockLiveAPI)
+                this.setState({ stockData }
+                    , () => console.log(this.state.stockData)
                 )
             }
         }
         catch (error) { console.log(error) }
     }
-    
-    componentDidMount() {
-        this.timer = setInterval(
-            () => this.getLiveStock(this.props.symbol),
-            5000
-        )
-    }
-    
+
     componentWillUnmount() {
         this._isMounted = false
         clearInterval(this.timer)
     }
 
     render() {
-        const stock = this.state.stockLiveAPI
+        const stock = this.state.stockData
         return (
             <span>${stock.regularMarketPrice} | ${stock.postMarketPrice}</span>
         )

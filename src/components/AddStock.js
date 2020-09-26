@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import axios from "axios"
-export class AddStock extends Component {
+class AddStock extends Component {
     constructor() {
         super()
         this.state = {
@@ -16,9 +16,9 @@ export class AddStock extends Component {
 
     postStock = async () => {
         if (parseFloat(this.state.amount) > 0 && parseFloat(this.state.price) > 0) {
-            if (window.confirm(`Do you want to add ${this.props.dataStock.symbol}`)) {
+            if (window.confirm(`Do you want to add ${this.props.stockData.symbol}`)) {
 
-                const stock = this.props.dataStock
+                const stock = this.props.stockData
                 const newStock = {
                     symbol: stock.symbol,
                     companyName: stock.displayName,
@@ -41,10 +41,10 @@ export class AddStock extends Component {
     handleSubmit = event => event.preventDefault() 
 
     render() {
-        const dataS = this.props.dataStock
+        const stockData = this.props.stockData
         return (
             <div>
-                {dataS !== undefined && Object.keys(dataS).length !== 0
+                {stockData !== undefined && Object.keys(stockData).length !== 0
                     ? <form onSubmit={this.handleSubmit}>
                         <select id="select-input" name="operation" onChange={this.updateHandler}>
                             <option value="Buy">Buy</option>

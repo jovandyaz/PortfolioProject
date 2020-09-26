@@ -5,8 +5,6 @@ import PortfDetails from "./components/PortfDetails"
 import "./styles/App.css"
 class App extends Component {
 
-  componentDidMount = () => { }
-
   render() {
     return (
       <Router>

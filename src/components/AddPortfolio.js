@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import axios from "axios"
-export class AddPortfolio extends Component {
+class AddPortfolio extends Component {
     constructor() {
         super()
         this.state = {
@@ -23,6 +23,7 @@ export class AddPortfolio extends Component {
                 await axios.post("http://localhost:8080/portfolio", newPortf)
                 console.log(newPortf)
                 alert("Portfolio added")
+                this.props.getPortfoliosDB()
             } else alert("Operation canceled")
         } else alert("Add a name, please")
     }

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import Portfolio from './Portfolio'
 import AddPortfolio from './AddPortfolio'
-export class Portfolios extends Component {
+class Portfolios extends Component {
     constructor() {
         super()
         this.state = {

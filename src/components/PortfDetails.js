@@ -3,13 +3,14 @@ import AddStock from './AddStock'
 import AddCashOp from './AddCashOp'
 import LiveStock from './LiveStock'
 import SearchStock from './SearchStock'
+import { stockAPI } from '../config/stockAPI'
 import axios from "axios"
-export class PortfDetails extends Component {
+class PortfDetails extends Component {
     constructor() {
         super()
         this.state = {
             portfoliosDB: [],
-            stockAPI: {}
+            stockData: {}
         }
     }
 
@@ -20,25 +21,9 @@ export class PortfDetails extends Component {
     }
 
     getStockData = async (symbol) => {
-        // console.log(symbol)
         try {
-            const response = await axios({
-                "method": "GET",
-                "url": "https://yahoo-finance-low-latency.p.rapidapi.com/v6/finance/quote",
-                "headers": {
-                    "content-type": "application/octet-stream",
-                    "x-rapidapi-host": "yahoo-finance-low-latency.p.rapidapi.com",
-                    // "x-rapidapi-key": "57ae4cfc65msh4d184d0863c6a8bp12a226jsn42ada5b35177", // jvaonam@me.com (GitHub)
-                    // "x-rapidapi-key": "a12a1e5f76msh3441869bfa154bfp1dbcadjsnd030ce2b2055", // jovannotty@gmail.com (Google)
-                    "x-rapidapi-key": "d00737ebddmsh1018c9751fd92c2p1e1569jsn56af2bf110ab",  // thejam_17@hotmail.com (Fb)
-                    "useQueryString": true,
-                },
-                "params": {
-                    "lang": "en",
-                    "symbols": `${symbol}`,
-                }
-            })
-            this.setState({ stockAPI: response.data.quoteResponse.result[0] }, () => console.log(this.state.stockAPI))
+            const stockData = await stockAPI.getRequest(symbol)
+            this.setState({ stockData }, () => console.log(this.state.stockData))
         } catch (error) { console.log(error) }
     }
 
@@ -60,7 +45,7 @@ export class PortfDetails extends Component {
                 {portf !== undefined ?
                     <div>
                         <h2>{portf.portfolioName}</h2>
-                        <AddCashOp portf={portf} getPortfoliosDB={this.getPortfoliosDB}/>
+                        <AddCashOp portf={portf} getPortfoliosDB={this.getPortfoliosDB} />
                         <h3>Cash history:</h3>
                         {portf.cash.map(m => <div key={m._id}>{m.operation}: ${m.amount}</div>)}
                         <h3>Stocks:</h3>
@@ -70,9 +55,9 @@ export class PortfDetails extends Component {
                                 <div>{m.symbol} | $ | <LiveStock symbol={m.symbol} /> </div>
                             </div>)}
                         <h3>Add Stock to the Portfolio</h3>
-                        <SearchStock getStockData={this.getStockData} dataStock={this.state.stockAPI} />
+                        <SearchStock getStockData={this.getStockData} stockData={this.state.stockData} />
                         <br />
-                        <AddStock portf={portf} dataStock={this.state.stockAPI} getPortfoliosDB={this.getPortfoliosDB}/>
+                        <AddStock portf={portf} stockData={this.state.stockData} getPortfoliosDB={this.getPortfoliosDB} />
                     </div>
                     : null}
             </div>

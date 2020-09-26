@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import axios from "axios"
-export class AddCashOp extends Component {
+class AddCashOp extends Component {
     constructor() {
         super()
         this.state = {
