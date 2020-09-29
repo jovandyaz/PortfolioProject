@@ -7,7 +7,7 @@ class AddStock extends Component {
             amount: 0,
             operation: "Buy",
             price: 0,
-            fee: 0,
+            percentFee: 0,
             tradeDate: new Date()
         }
     }
@@ -25,7 +25,7 @@ class AddStock extends Component {
                     operation: this.state.operation,
                     amount: this.state.amount,
                     price: this.state.price,
-                    fee: this.state.fee,
+                    percentFee: this.state.percentFee,
                     priceDate: this.state.tradeDate,
                     portfolio: this.props.portf._id
                 }
@@ -50,9 +50,9 @@ class AddStock extends Component {
                             <option value="Buy">Buy</option>
                             <option value="Sell">Sell</option>
                         </select>
-                        <input id="stock-amount" type="number" min="0" placeholder="Shares #" name="amount" value={this.state.name} onChange={this.updateHandler} />
-                        <input id="stock-price" type="number" min="0" placeholder="Price $" name="price" value={this.state.name} onChange={this.updateHandler} />
-                        <input id="stock-fee" type="number" min="0" placeholder="Fee $" name="fee" value={this.state.name} onChange={this.updateHandler} />
+                        <input id="stock-amount" type="number" min="0" placeholder="Shares (#)" name="amount" value={this.state.name} onChange={this.updateHandler} />
+                        <input id="stock-price" type="number" min="0" placeholder="Price ($)" name="price" value={this.state.name} onChange={this.updateHandler} />
+                        <input id="stock-fee" type="number" min="0" placeholder="Fee (%)" name="percentFee" value={this.state.name} onChange={this.updateHandler} />
                         <input id="stock-date" type="date" placeholder="Date" name="tradeDate" value={this.state.name} onChange={this.updateHandler} />
                         <button onClick={this.postStock}>Add Stock</button>
                     </form>

@@ -49,6 +49,7 @@ class Portfolios extends Component {
                 {portfs !== undefined && portfs.length !== 0
                     ? <div>
                         {portfs.map(m => <Portfolio key={m._id} portfolio={m} />)}
+                        <br />
                         <AddPortfolio getPortfoliosDB={this.getPortfoliosDB} />
 
                         <h2>Stocks DataBase</h2>

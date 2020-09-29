@@ -8,7 +8,8 @@ const stockSchema = new Schema({
     operation: String,
     amount: Number,  // número de acciones compradas / vendidas
     price: Number,  // precio al cual se compró / vendió la acción
-    fee: Number,
+    percentFee: Number,
+    costFee: Number,
     priceDate: Date,  //costo en la fecha de operación // datePrice: {type: String, default: moment().format("LL")}
     portfolio: { type: Schema.Types.ObjectId, ref: 'Portfolio' }
 })
