@@ -31,9 +31,9 @@ class AddStock extends Component {
                 }
                 // this.props.postStock(newStock)
                 await axios.post("http://localhost:8080/stock", newStock)
-                alert("Stock added")
-                console.log(newStock)
                 this.props.getPortfoliosDB()
+                console.log(newStock)
+                alert("Stock added")
             } else alert("Operation canceled")
         } else alert("Add the info, please")
     }

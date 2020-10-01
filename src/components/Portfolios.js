@@ -41,24 +41,18 @@ class Portfolios extends Component {
     componentDidMount = async () => await this.getDBdata()
 
     render() {
-        const stockDB = this.state.stockDB
         const portfs = this.state.portfoliosDB
         console.log(portfs)
         return (
-            <div>
+            <React.Fragment>
                 {portfs !== undefined && portfs.length !== 0
                     ? <div>
                         {portfs.map(m => <Portfolio key={m._id} portfolio={m} />)}
                         <br />
                         <AddPortfolio getPortfoliosDB={this.getPortfoliosDB} />
-
-                        <h2>Stocks DataBase</h2>
-                        {stockDB.map((m) => (
-                            <div key={m._id}>{m.companyName} ({m.symbol}): ${m.price}</div>
-                        ))}
                     </div>
                     : <div>Loading...</div>}
-            </div>
+            </React.Fragment>
         )
     }
 }

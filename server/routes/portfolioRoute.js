@@ -4,7 +4,7 @@ const Portfolio = require('../models/portfolioModel')
 
 router.get('/portfolios', (req, res) => {
     Portfolio.find({}, function (err, portfs) {
-        console.log("portfolios:\n", portfs)
+        // console.log("portfolios:\n", portfs)
         res.send(portfs)
     })
     .populate("stocks")

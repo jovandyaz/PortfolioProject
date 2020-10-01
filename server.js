@@ -11,8 +11,8 @@ const stock = require('./server/routes/stockRoute')
 
 // Mongoose set up & Connecting to Mongo DB
 const mongoose = require('mongoose')
-mongoose.connect( process.env.MONGODB_URI || 'mongodb://localhost/MarketDB', 
-    { useNewUrlParser: true, useUnifiedTopology: true }, { useFindAndModify: false })
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/MarketDB',
+    { useFindAndModify: false, useNewUrlParser: true, useUnifiedTopology: true })
 
 // Setting up express and configuring bodyParser
 app.use(express.static(path.join(__dirname, 'node_modules')))

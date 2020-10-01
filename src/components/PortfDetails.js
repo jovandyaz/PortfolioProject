@@ -3,14 +3,15 @@ import AddStock from './AddStock'
 import AddCashOp from './AddCashOp'
 import LiveStock from './LiveStock'
 import SearchStock from './SearchStock'
-import { stockAPI } from '../config/stockAPI'
+import ShowStock from './ShowStock'
 import axios from "axios"
+import { stockAPI } from '../config/stockAPI'
 class PortfDetails extends Component {
     constructor() {
         super()
         this.state = {
             portfoliosDB: [],
-            stockData: {}
+            stockData: {},
         }
     }
 
@@ -27,41 +28,48 @@ class PortfDetails extends Component {
         } catch (error) { console.log(error) }
     }
 
-    componentDidMount = async () => {
-        await this.getPortfoliosDB()
-    }
-
     findPortf = (id) => {
         const index = this.state.portfoliosDB.findIndex(p => p._id === id)
         return index
     }
 
+    componentDidMount = async () => {
+        await this.getPortfoliosDB()
+    }
+
     render() {
         const matchID = this.props.match.params.id
         const portf = this.state.portfoliosDB[this.findPortf(matchID)]
-        console.log(portf)
+        let symbols = []
+        if (portf !== undefined) {
+            symbols = [...new Set(portf.stocks.map(m => m.symbol))]
+            console.log(symbols)
+        }
         return (
-            <div>
+            <React.Fragment>
                 {portf !== undefined ?
                     <div>
                         <h2>{portf.portfolioName}</h2>
+
                         <h3>Cash history:</h3>
                         {portf.cash.map(m => <div key={m._id}>{m.operation}: ${m.amount}</div>)}
                         <br />
                         <AddCashOp portf={portf} getPortfoliosDB={this.getPortfoliosDB} />
+
                         <h3>Stocks:</h3>
-                        <h4>Symbol | Av Cost | Price | Post Market</h4>
-                        {portf.stocks.map(m =>
-                            <div key={m._id}>
-                                <div>{m.symbol} | $ | <LiveStock symbol={m.symbol} /></div>
-                            </div>)}
+                        <h4>Symbol | Average Cost | Quantity | Live Price | Post Market</h4>
+                        {/* {portf.stocks.map(m =>
+                            <div key={m._id}><ShowStock stock={m} getStock={this.getStock} /> <LiveStock symbol={m.symbol} /></div>)} */}
+                        {symbols.map(m =>
+                            <div key={m}><ShowStock symbol={m} idPortf={portf._id} /> <LiveStock symbol={m} /></div>)}
+
                         <h3>Add Stock to the Portfolio</h3>
                         <SearchStock getStockData={this.getStockData} stockData={this.state.stockData} />
                         <br />
                         <AddStock portf={portf} stockData={this.state.stockData} getPortfoliosDB={this.getPortfoliosDB} />
                     </div>
                     : null}
-            </div>
+            </React.Fragment>
         )
     }
 }
