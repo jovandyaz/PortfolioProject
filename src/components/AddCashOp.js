@@ -6,7 +6,7 @@ class AddCashOp extends Component {
         this.state = {
             operation: "Deposit",
             amount: 0,
-            operationDate: new Date().toLocaleTimeString()
+            operationDate: new Date()
         }
     }
 
@@ -15,6 +15,7 @@ class AddCashOp extends Component {
     postCash = async () => {
         if (parseFloat(this.state.amount) > 0) {
             if (window.confirm(`Do you want to do a ${this.state.operation} of $${this.state.amount}?`)) {
+                // if (typeof (this.state.operationDate) === "string") { console.log(new Date(this.state.operationDate)) } else { console.log(typeof (this.state.operationDate)) }
                 const cash = {
                     portfolio: this.props.portf._id,
                     operation: this.state.operation,
@@ -29,7 +30,7 @@ class AddCashOp extends Component {
         } else alert("Add an amount, please")
     }
 
-    handleSubmit = event => event.preventDefault() 
+    handleSubmit = event => event.preventDefault()
 
     render() {
         return (
@@ -42,7 +43,7 @@ class AddCashOp extends Component {
                     {/* <option value="Dividend">Dividend</option> */}
                     {/* <option value="Sold">Sold</option> */}
                 </select>
-                <input id="cash-date" type="date" placeholder="Date" name="operationDate" value={this.state.name} onChange={this.updateHandler} />
+                <input id="cash-date" type="date" name="operationDate" value={this.state.name} onChange={this.updateHandler} />
                 <button onClick={this.postCash}>Update Cash</button>
             </form>
         )

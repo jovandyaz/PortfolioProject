@@ -1,15 +1,21 @@
 import React, { Component } from 'react'
 import axios from "axios"
 
- class ShowStock extends Component {
+class ShowStock extends Component {
     constructor() {
         super()
         this.state = {
-            stockData: {},
+            stockData: {}
         }
     }
 
-    componentDidMount (){
+    // componentDidMount() {
+    //     this.timer = setInterval(
+    //         () => this.getStock(),
+    //         1000
+    //     )
+    // }
+    componentDidMount() {
         this.getStock()
     }
 
@@ -17,13 +23,18 @@ import axios from "axios"
         const response = await axios.get(`http://localhost:8080/stocks/${this.props.idPortf}/${this.props.symbol}`)
         this.setState({ stockData: response.data })
     }
-    
+
+    // componentWillUnmount() {
+    //     this._isMounted = false
+    //     clearInterval(this.timer)
+    // }
+
     render() {
         const stock = this.state.stockData
         return (
-            <span>
+            <React.Fragment>
                 {stock.symbol}: ${stock.averageCost} - ({stock.totalAmount})
-            </span>
+            </React.Fragment>
         )
     }
 }

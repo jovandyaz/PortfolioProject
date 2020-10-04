@@ -3,14 +3,14 @@ const Schema = mongoose.Schema
 // const moment = require('moment')
 
 const stockSchema = new Schema({
-    symbol: String,
-    companyName: String,
-    operation: String,
-    amount: Number,  // número de acciones compradas / vendidas
-    price: Number,  // precio al cual se compró / vendió la acción
-    percentFee: Number,
-    costFee: Number,
-    priceDate: Date,  //costo en la fecha de operación // datePrice: {type: String, default: moment().format("LL")}
+    symbol: {type: String, trim: true, default: ''},
+    companyName: {type: String, trim: true, default: ''},
+    operation: {type: String, trim: true, default: ''},
+    amount: {type: Number, default: 0},  // número de acciones compradas / vendidas
+    price: {type: Number, default: 0},  // precio al cual se compró / vendió la acción
+    percentFee: {type: Number, default: 0},
+    totalCostFee: {type: Number, default: 0},
+    priceDate: {type: Date, default: Date.now},  //costo en la fecha de operación // datePrice: {type: String, default: moment().format("LL")}
     portfolio: { type: Schema.Types.ObjectId, ref: 'Portfolio' }
 })
 

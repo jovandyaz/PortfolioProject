@@ -38,7 +38,7 @@ router.get('/stocks/:idPortf/:symbol', async (req, res) => {
 router.post('/stock', function (req, res) {
     // console.log("receiving stock: ", req.body)
     const newStock = new Stock(req.body)
-    newStock.costFee = newStock.price * (newStock.percentFee / 100)
+    newStock.totalCostFee = newStock.price * (newStock.percentFee / 100) * newStock.amount
     newStock.save(async (err, stock) => {
         console.log("stock: ", stock)
         await Portfolio.findByIdAndUpdate(

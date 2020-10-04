@@ -6,7 +6,7 @@ class LiveStock extends Component {
     constructor() {
         super()
         this.state = {
-            stockData: {},
+            stockData: {}
         }
     }
 

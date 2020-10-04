@@ -6,12 +6,13 @@ import SearchStock from './SearchStock'
 import ShowStock from './ShowStock'
 import axios from "axios"
 import { stockAPI } from '../config/stockAPI'
+import ShowCash from './ShowCash'
 class PortfDetails extends Component {
     constructor() {
         super()
         this.state = {
             portfoliosDB: [],
-            stockData: {},
+            stockData: {}
         }
     }
 
@@ -50,9 +51,9 @@ class PortfDetails extends Component {
                 {portf !== undefined ?
                     <div>
                         <h2>{portf.portfolioName}</h2>
-
+                        <h4>Total Cash: ${portf.totalCash}</h4>
                         <h3>Cash history:</h3>
-                        {portf.cash.map(m => <div key={m._id}>{m.operation}: ${m.amount}</div>)}
+                        {portf.cash.map(m => <div key={m._id}> <ShowCash cash={m} /></div>)}
                         <br />
                         <AddCashOp portf={portf} getPortfoliosDB={this.getPortfoliosDB} />
 
