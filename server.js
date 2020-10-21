@@ -12,7 +12,7 @@ const stock = require('./server/routes/stockRoute')
 // Mongoose set up & Connecting to Mongo DB
 const mongoose = require('mongoose')
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/MarketDB',
-    { useUnifiedTopology: true, useNewUrlParser: true, useFindAndModify: false })
+    { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
     .then(() => console.log('DB Connected!'))
     .catch(err => {
         console.log(`DB Connection Error: ${err.message}`)

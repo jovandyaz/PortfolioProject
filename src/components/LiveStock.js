@@ -30,10 +30,10 @@ class LiveStock extends Component {
         catch (error) { console.log(error) }
     }
 
-    componentWillUnmount() {
-        this._isMounted = false
-        clearInterval(this.timer)
-    }
+    // componentWillUnmount() {
+    //     this._isMounted = false
+    //     clearInterval(this.timer)
+    // }
 
     render() {
         const stock = this.state.stockData
