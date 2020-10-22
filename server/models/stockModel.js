@@ -1,6 +1,5 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
-// const moment = require('moment')
 
 const stockSchema = new Schema({
     symbol: {type: String, trim: true, default: ''},
@@ -10,7 +9,7 @@ const stockSchema = new Schema({
     price: {type: Number, default: 0},  // precio al cual se compró / vendió la acción
     percentFee: {type: Number, default: 0},
     totalCostFee: {type: Number, default: 0},
-    priceDate: {type: Date, default: Date.now},  //costo en la fecha de operación // datePrice: {type: String, default: moment().format("LL")}
+    priceDate: {type: Date, default: Date.now},  //costo en la fecha de operación
     portfolio: { type: Schema.Types.ObjectId, ref: 'Portfolio' }
 })
 

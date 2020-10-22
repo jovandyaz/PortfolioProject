@@ -30,9 +30,6 @@ class PortfDetails extends Component {
     render() {
         const matchID = this.props.match.params.id
         const portf = this.state.portfoliosDB[this.findPortf(matchID)]
-        const { REACT_APP_FB_KEY } = process.env
-        console.log(process.env.REACT_APP_QUOTE_URL)
-        console.log(REACT_APP_FB_KEY)
         return (
             <React.Fragment>
                 {portf !== undefined ?

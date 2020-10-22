@@ -5,7 +5,8 @@ const portfolioSchema = new Schema({
     user: {type: String, trim: true, default: ''},
     portfolioName: {type: String, trim: true, default: ''},
     totalCash: {type: Number, default: 0}, 
-    current: {type: String, trim: true, default: ''},
+    current: {type: String, trim: true, default: 'USD'},
+    date: {type: Date, default: Date.now},
     stocks: [{ type: Schema.Types.ObjectId, ref: 'Stock' }],
     cash: [{ type: Schema.Types.ObjectId, ref: 'Cash' }]
 })

@@ -17,8 +17,6 @@ class AddPortfolio extends Component {
                 const newPortf = {
                     portfolioName: this.state.portfolio,
                     current: this.state.current,
-                    stocks: [],
-                    cash: []
                 }
                 await axios.post("http://localhost:8080/portfolio", newPortf)
                 console.log(newPortf)

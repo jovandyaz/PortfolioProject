@@ -5,9 +5,9 @@ const path = require('path')
 const bodyParser = require('body-parser')
 
 //Internal Modules Imports
-const portfolio = require('./server/routes/portfolioRoute')
-const cash = require('./server/routes/cashRoute')
-const stock = require('./server/routes/stockRoute')
+const portfolioRoute = require('./server/routes/portfolioRoute')
+const cashRoute = require('./server/routes/cashRoute')
+const stockRoute = require('./server/routes/stockRoute')
 
 // Mongoose set up & Connecting to Mongo DB
 const mongoose = require('mongoose')
@@ -32,9 +32,9 @@ app.use(function (req, res, next) {
 })
 
 //Connecting to our routes
-app.use('/', portfolio)
-app.use('/', cash)
-app.use('/', stock)
+app.use('/', portfolioRoute)
+app.use('/', cashRoute)
+app.use('/', stockRoute)
 
 //Running the server
 const port = process.env.PORT || 8080
