@@ -24,9 +24,8 @@ class AddPortfolio extends Component {
                     alert("This portfolio already exists, change the name")
                 }
                 else {
-                    console.log(newPortf)
-                    alert("Portfolio added")
                     this.props.getPortfoliosDB()
+                    alert("Portfolio added")
                 }
             } else alert("Operation canceled")
         } else alert("Add a name, please")

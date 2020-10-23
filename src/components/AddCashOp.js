@@ -22,10 +22,15 @@ class AddCashOp extends Component {
                     amount: this.state.amount,
                     operationDate: this.state.operationDate,
                 }
-                await axios.post("http://localhost:8080/cash", cash)
-                alert("Operation done")
-                console.log(cash)
-                this.props.getPortfoliosDB()
+                const response = await axios.post("http://localhost:8080/cash", cash)
+                console.log(response)
+                if (response.data.message === "Failed") {
+                    alert("Insufficient funds")
+                }
+                else {
+                    this.props.getPortfoliosDB()
+                    alert("Operation done")
+                }
             } else alert("Operation canceled")
         } else alert("Add an amount, please")
     }

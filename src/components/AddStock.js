@@ -29,16 +29,19 @@ class AddStock extends Component {
                     priceDate: this.state.tradeDate,
                     portfolio: this.props.portf._id
                 }
-                // this.props.postStock(newStock)
-                await axios.post("http://localhost:8080/stock", newStock)
-                this.props.getPortfoliosDB()
-                console.log(newStock)
-                alert("Stock added")
+                const response = await axios.post("http://localhost:8080/stock", newStock)
+                if (response.data.message === "Failed") {
+                    alert("Insufficient funds")
+                }
+                else {
+                    this.props.getPortfoliosDB()
+                    alert("Stock added")
+                }
             } else alert("Operation canceled")
         } else alert("Add the info, please")
     }
 
-    handleSubmit = event => event.preventDefault() 
+    handleSubmit = event => event.preventDefault()
 
     render() {
         const stockData = this.props.stockData

@@ -13,7 +13,7 @@ router.get('/portfolios', async (req, res) => {
     }
 })
 
-router.get('/portfolios/:name', async (req, res) => {
+router.get('/portfolios/:names', async (req, res) => {
     try {
         const findPortfsNames = await Portfolio
             .aggregate([{

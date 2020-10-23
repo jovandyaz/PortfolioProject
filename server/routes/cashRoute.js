@@ -13,50 +13,33 @@ router.get('/cash', async (req, res) => {
 })
 
 router.post('/cash', async (req, res) => {
-    const newcash = new Cash(req.body)
+    const newCash = new Cash(req.body)
     try {
-        const saveCash = await newcash.save(async (err, cash) => {
-            console.log("saving cash:\n", cash)
-            await Portfolio
-                .findByIdAndUpdate({ _id: newcash.portfolio }, {
-                    $push: {
-                        cash: newcash._id
-                    }
-                })
-
-            await Cash
-                .find({
-                    portfolio: newcash.portfolio,
-                }, async (err, cash) => {
-                    console.log("cash:\n", cash)
-                    const totalCash = {}
-                    let totalResult = 0
-                    let deposits = 0
-                    let withdraws = 0
-                    cash.forEach(a => {
-                        if (a.operation === "Deposit") {
-                            deposits += a.amount
-                        }
-                        else if (a.operation === "Withdraw") {
-                            withdraws += a.amount
-                        }
-                        totalResult = deposits - withdraws
-                    })
-                    console.log("totalResult: ", totalResult)
-                    totalCash.deposits = deposits
-                    totalCash.withdraws = withdraws
-                    totalCash.totalResult = totalResult
-
-                    await Portfolio
-                        .findByIdAndUpdate({ _id: newcash.portfolio }, {
-                            totalCash: totalCash.totalResult
-                        })
-                })
-        })
-        res.json(saveCash)
+        const updateCash = await Portfolio.findById({ _id: newCash.portfolio }, { portfolioName: 1, totalCash: 1 })
+        if (newCash.operation === "Deposit") {
+            saveCash(newCash)
+            await Portfolio.findByIdAndUpdate({ _id: newCash.portfolio }, { totalCash: updateCash.totalCash + newCash.amount })
+            res.json({ message: "Cash saved" })
+        }
+        else if (newCash.operation === "Withdraw") {
+            if (updateCash.totalCash - newCash.amount >= 0) {
+                saveCash(newCash)
+                await Portfolio.findByIdAndUpdate({ _id: newCash.portfolio }, { totalCash: updateCash.totalCash - newCash.amount })
+                res.json({ message: "Cash saved" })
+            }
+            else { res.json({ message: "Failed" }) }
+        }
     } catch (err) {
         res.json({ Error: err })
     }
 })
+
+async function saveCash(newCash) {
+    await newCash.save(async (err, res) => {
+        await Portfolio.findByIdAndUpdate(
+            { _id: newCash.portfolio },
+            { $push: { cash: newCash._id } })
+    })
+}
 
 module.exports = router

@@ -43,13 +43,19 @@ router.post('/stock', async (req, res) => {
     const newStock = new Stock(req.body)
     newStock.totalCostFee = newStock.price * (newStock.percentFee / 100) * newStock.amount
     try {
-        const saveStock = newStock.save(async (err, stock) => {
-            console.log("stock: ", stock)
+        const cashPortf = await Portfolio.findById({ _id: newStock.portfolio }, { portfolioName: 1, totalCash: 1 })
+        if (cashPortf.totalCash - (newStock.amount * newStock.price + newStock.totalCostFee) >= 0) {
+            newStock.save(async (err, res) => {
+                await Portfolio.findByIdAndUpdate(
+                    { _id: newStock.portfolio },
+                    { $push: { stocks: newStock._id } })
+            })
             await Portfolio.findByIdAndUpdate(
                 { _id: newStock.portfolio },
-                { $push: { stocks: newStock._id } })
-        })
-        res.json(saveStock)
+                { totalCash: cashPortf.totalCash - (newStock.amount * newStock.price + newStock.totalCostFee) }
+            )
+            res.json({ message: "Stock saved" })
+        } else { res.json({ message: "Failed" }) }
     } catch (err) {
         res.json({ Error: err })
     }
