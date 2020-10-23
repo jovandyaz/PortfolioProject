@@ -18,15 +18,21 @@ class AddPortfolio extends Component {
                     portfolioName: this.state.portfolio,
                     current: this.state.current,
                 }
-                await axios.post("http://localhost:8080/portfolio", newPortf)
-                console.log(newPortf)
-                alert("Portfolio added")
-                this.props.getPortfoliosDB()
+                const response = await axios.post("http://localhost:8080/portfolio", newPortf)
+                console.log(response)
+                if (response.data.message === "Duplicate") {
+                    alert("This portfolio already exists, change the name")
+                }
+                else {
+                    console.log(newPortf)
+                    alert("Portfolio added")
+                    this.props.getPortfoliosDB()
+                }
             } else alert("Operation canceled")
         } else alert("Add a name, please")
     }
-    
-    handleSubmit = event => event.preventDefault() 
+
+    handleSubmit = event => event.preventDefault()
 
     componentDidMount = async () => await this.props.getPortfoliosDB()
 

@@ -15,29 +15,31 @@ router.get('/stocks', async (req, res) => {
 router.get('/stocks/:idPortf/:symbol', async (req, res) => {
     const idPortf = req.params.idPortf
     const symbol = req.params.symbol
-    await Stock
-        .find({
+    try {
+        const findSymbol = await Stock.find({
             portfolio: idPortf,
             symbol: symbol
-        }, (err, stocks) => {
-            console.log("stocks:\n", stocks)
-            var totalAmount = 0
-            var averageCost = 0
-            stocks.forEach(a => {
-                totalAmount += a.amount
-                averageCost += a.price * a.amount
-            })
-            console.log("totalAmount: ", totalAmount)
-            console.log("averageCost: ", averageCost / totalAmount)
-            const newStock = {}
-            newStock.symbol = symbol
-            newStock.totalAmount = totalAmount
-            newStock.averageCost = averageCost / totalAmount
-            res.send(newStock)
         })
+        console.log("Matched stocks:\n", findSymbol)
+        var totalAmount = 0
+        var totalCost = 0
+        findSymbol.forEach(a => {
+            totalAmount += a.amount
+            totalCost += a.price * a.amount
+        })
+        console.log("totalAmount: ", totalAmount)
+        console.log("averageCost: ", totalCost / totalAmount)
+        const newStock = {}
+        newStock.symbol = symbol
+        newStock.totalAmount = totalAmount
+        newStock.averageCost = totalCost / totalAmount
+        res.json(newStock)
+    } catch (err) {
+        res.status(500).json({ Error: err })
+    }
 })
 
-router.post('/stock', function (req, res) {
+router.post('/stock', async (req, res) => {
     const newStock = new Stock(req.body)
     newStock.totalCostFee = newStock.price * (newStock.percentFee / 100) * newStock.amount
     try {
@@ -49,9 +51,8 @@ router.post('/stock', function (req, res) {
         })
         res.json(saveStock)
     } catch (err) {
-
+        res.json({ Error: err })
     }
-
 })
 
 module.exports = router

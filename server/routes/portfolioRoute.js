@@ -13,7 +13,7 @@ router.get('/portfolios', async (req, res) => {
     }
 })
 
-router.get('/portfolios/names', async (req, res) => {
+router.get('/portfolios/:name', async (req, res) => {
     try {
         const findPortfsNames = await Portfolio
             .aggregate([{
@@ -27,11 +27,19 @@ router.get('/portfolios/names', async (req, res) => {
 
 router.post('/portfolio', async (req, res) => {
     const newPortf = new Portfolio(req.body)
-    try {
-        const savePortf = await newPortf.save()
-        res.json(savePortf)
-    } catch (err) {
-        res.json({ Error: err })
+    const findPortfName = await Portfolio.find({ portfolioName: newPortf.portfolioName }, { portfolioName: 1 })
+    if (findPortfName.length > 0) {
+        if (findPortfName[findPortfName.length - 1].portfolioName.toLowerCase() === newPortf.portfolioName.toLowerCase()) {
+            res.json({ message: "Duplicate" })
+        }
+    }
+    else {
+        try {
+            const savePortf = await newPortf.save()
+            res.json(savePortf)
+        } catch (err) {
+            res.json({ Error: err })
+        }
     }
 })
 
