@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { stockAPI } from '../config/stockAPI'
 import LiveStock from './LiveStock'
 import SearchStock from './SearchStock'
-import ShowStock from './ShowStock'
+import ShowStocks from './ShowStocks'
 import AddStock from './AddStock'
 
 class StockDetails extends Component {
@@ -28,11 +28,14 @@ class StockDetails extends Component {
 
         return (
             <div>
-                <h3>Stocks:</h3>
-                <h4>Symbol | Average Cost | Quantity | Live Price | Post Market</h4>
-                {symbols.map(m =>
-                    <div key={m}><ShowStock symbol={m} idPortf={portf._id} /> <LiveStock symbol={m} /></div>)}
-
+                {symbols.length > 0
+                    ? <div>
+                        <h3>Stocks:</h3>
+                        <h4>Symbol | Average Cost | Quantity | Price | Post Market</h4>
+                        {symbols.map(m =>
+                            <div key={m}><ShowStocks symbol={m} idPortf={portf._id} /> <LiveStock symbol={m} /></div>)}
+                    </div>
+                    : null}
                 <h3>Add Stock to the Portfolio</h3>
                 <SearchStock getStockData={this.getStockData} stockData={this.state.stockData} />
                 <br />

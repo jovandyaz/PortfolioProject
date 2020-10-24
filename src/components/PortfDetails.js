@@ -35,12 +35,12 @@ class PortfDetails extends Component {
                 {portf !== undefined ?
                     <div>
                         <h2>{portf.portfolioName}</h2>
-                        <h3>Cash: ${portf.totalCash}</h3>
+                        <h3>Cash: ${portf.totalCash.toFixed(2)}</h3>
                         <h4>History:</h4>
                         {portf.cash.map(m => <div key={m._id}> <ShowCash cash={m} /></div>)}
                         <br />
                         <AddCashOp portf={portf} getPortfoliosDB={this.getPortfoliosDB} />
-                        <StockDetails portf={portf} getStockData={this.getStockData} stockData={this.state.stockData} getPortfoliosDB={this.getPortfoliosDB} />
+                        <StockDetails portf={portf} getPortfoliosDB={this.getPortfoliosDB} />
                     </div>
                     : null}
             </React.Fragment>

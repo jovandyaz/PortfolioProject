@@ -7,6 +7,7 @@ const stockSchema = new Schema({
     operation: {type: String, trim: true, default: ''},
     amount: {type: Number, default: 0},  // número de acciones compradas / vendidas
     price: {type: Number, default: 0},  // precio al cual se compró / vendió la acción
+    totalCost: {type: Number, default: 0},
     percentFee: {type: Number, default: 0},
     totalCostFee: {type: Number, default: 0},
     priceDate: {type: Date, default: Date.now},  //costo en la fecha de operación
