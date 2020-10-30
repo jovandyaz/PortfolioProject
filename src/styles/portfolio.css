@@ -1,0 +1,20 @@
+.portf_link a {
+    font-family: 'Syne Mono', monospace;
+    font-size: xxx-large;
+    color: var(--text-color);
+    cursor: pointer;
+    
+    background:
+        linear-gradient(to bottom, var(--link-bg) 0%,
+            var(--link-bg) 100%);
+    background-position: 0 100%;
+    background-repeat: repeat-x;
+    background-size: 1px 1px;
+    text-decoration: none;
+    transition: background-size .2s;
+}
+
+.portf_link a:hover {
+    background-size: 4px 50px;
+    background: var(--link-bg);
+}
