@@ -27,7 +27,7 @@ class StockDetails extends Component {
         console.log(symbols)
 
         return (
-            <div>
+            <React.Fragment>
                 {symbols.length > 0
                     ? <div>
                         <h3>Stocks:</h3>
@@ -36,12 +36,12 @@ class StockDetails extends Component {
                             <div key={m}><ShowStocks symbol={m} idPortf={portf._id} /> <LiveStock symbol={m} /></div>)}
                     </div>
                     : null}
+                <br />
                 <h3>Add Stock to the Portfolio</h3>
                 <SearchStock getStockData={this.getStockData} stockData={this.state.stockData} />
                 <br />
                 <AddStock portf={portf} stockData={this.state.stockData} getPortfoliosDB={this.props.getPortfoliosDB} />
-
-            </div>
+            </React.Fragment>
         )
     }
 }

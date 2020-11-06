@@ -1,5 +1,5 @@
 .portf_link a {
-    font-family: 'Syne Mono', monospace;
+    font-family: var(--first-font);
     font-size: xxx-large;
     color: var(--text-color);
     cursor: pointer;

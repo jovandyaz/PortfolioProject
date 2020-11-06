@@ -9,17 +9,20 @@ class SearchStock extends Component {
 
     getStockData = async () => { await this.props.getStockData(this.state.stock) }
 
+    handleSubmit = event => event.preventDefault()
+
     render() {
         const stockData = this.props.stockData
         // console.log(dataStock)
         return (
-            <div>
+            <form onSubmit={this.handleSubmit}>
                 <input id="stock-input" type="text" placeholder="Search Stock" name="stock" value={this.state.name} onChange={this.updateHandler} />
-                <button onClick={this.getStockData}>Get</button>
+                {/* <button onClick={this.getStockData}>Get</button> */}
+                <input type="reset" value="Get" onClick={this.getStockData} />
                 {stockData !== undefined
                     ? stockData.displayName ? <div>{stockData.displayName}: ${stockData.regularMarketPrice}</div> : null
                     : <div>Stock no finded, try again</div>}
-            </div>
+            </form>
         )
     }
 }

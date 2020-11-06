@@ -1,6 +1,5 @@
-* {
-    color: whitesmoke;
-    font-family: 'Turret Road', cursive;
-    font-size: medium;
-    margin: 10px;
+.portf_details h1, h2{
+    font-family: var(--first-font);
+    font-size: xxx-large;
+    color: var(--link-bg);
 }

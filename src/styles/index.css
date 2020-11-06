@@ -11,16 +11,13 @@ body {
     monospace;
 } */
 
-@import url('https://fonts.googleapis.com/css2?family=Syne+Mono&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Turret+Road:wght@700&display=swap');
-
 :root {
   --bg: #232323;
-  --bg-accent: #d1d1d1;
-  --text-color: whitesmoke;
-  --nav-size: 60px;
-  --border: 1px solid #484a4d;
-  --border-radius: 8px;
+  --bg-accent:whitesmoke;
+  --text-color: white;
+  --first-font: 'Syne Mono', monospace;
+  --second-font: 'Turret Road', monospace;
+  --font-size: 1.4rem;
   --link-color: #8141bd;
   --link-bg: #df6925;
 }
@@ -31,6 +28,11 @@ body {
   padding: 0;
   background-color: var(--bg);
   color: var(--text-color);
+  font-family: var(--second-font);
+}
+
+html{
+  font-size: 62.5%;
 }
 
 ul {
