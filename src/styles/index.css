@@ -12,11 +12,12 @@ body {
 } */
 
 :root {
-  --bg: #232323;
-  --bg-accent:whitesmoke;
-  --text-color: white;
   --first-font: 'Syne Mono', monospace;
   --second-font: 'Turret Road', monospace;
+  --bg: #0d0d0d;
+  --bg-shadow: #232323;
+  --bg-accent:whitesmoke;
+  --text-color: white;
   --font-size: 1.4rem;
   --link-color: #8141bd;
   --link-bg: #df6925;

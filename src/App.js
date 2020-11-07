@@ -2,7 +2,7 @@ import React, { Component } from "react"
 import { BrowserRouter as Router, Route, Link, Redirect, } from "react-router-dom"
 import Portfolios from "./components/Portfolios"
 import PortfDetails from "./components/PortfDetails"
-// import logo from './img/logo_stocker.svg'
+import logo from './img/logo_stocker.png'
 import "./styles/App.css"
 class App extends Component {
 
@@ -31,10 +31,10 @@ class App extends Component {
     return (
       <Router>
         <header>
-          {/* <img className="logo" src={logo} alt="logo" /> */}
-          <div className="title-menu">
+          <img className="logo" src={logo} alt="logo" />
+          {/* <div className="title-menu">
             <h1 id="titleProject">Stocker</h1>
-          </div>
+          </div> */}
 
           <nav className="navbar">
             <ul>
@@ -46,10 +46,8 @@ class App extends Component {
         </header>
 
         <main>
-          <section className="container">
             <Route path="/portfolios" exact render={() => (<Portfolios />)} />
             <Route path="/portfolio/:id" exact render={({ match }) => (<PortfDetails match={match} />)} />
-          </section>
         </main>
 
         <footer></footer>

@@ -38,7 +38,7 @@ class LiveStock extends Component {
     render() {
         const stock = this.state.stockData
         return (
-            <span>${stock.regularMarketPrice} | ${stock.postMarketPrice}</span>
+            <div className="col data price">${stock.regularMarketPrice}</div>
         )
     }
 }

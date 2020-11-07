@@ -4,7 +4,7 @@ import LiveStock from './LiveStock'
 import SearchStock from './SearchStock'
 import ShowStocks from './ShowStocks'
 import AddStock from './AddStock'
-
+import '../styles/stockDetails.css'
 class StockDetails extends Component {
     constructor() {
         super()
@@ -29,15 +29,19 @@ class StockDetails extends Component {
         return (
             <React.Fragment>
                 {symbols.length > 0
-                    ? <div>
-                        <h3>Stocks:</h3>
-                        <h4>Symbol | Average Cost | Quantity | Price | Post Market</h4>
-                        {symbols.map(m =>
-                            <div key={m}><ShowStocks symbol={m} idPortf={portf._id} /> <LiveStock symbol={m} /></div>)}
-                    </div>
+                    ? <section className="stocks">
+                        <div className="grid-stocks">
+                            <div className="col title symbol">Symbol</div>
+                            <div className="col title avCost">Av. Cost</div>
+                            <div className="col title quantity">Quantity</div>
+                            <div className="col title price">Price</div>
+                            {symbols.map(m =>
+                                <React.Fragment key={m}><ShowStocks symbol={m} idPortf={portf._id} /> <LiveStock symbol={m} /></React.Fragment>)}
+                        </div>
+                    </section>
                     : null}
                 <br />
-                <h3>Add Stock to the Portfolio</h3>
+                <h4>Add Stock to the Portfolio</h4>
                 <SearchStock getStockData={this.getStockData} stockData={this.state.stockData} />
                 <br />
                 <AddStock portf={portf} stockData={this.state.stockData} getPortfoliosDB={this.props.getPortfoliosDB} />

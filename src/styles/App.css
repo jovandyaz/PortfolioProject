@@ -6,10 +6,9 @@ header {
 }
 
 .logo {
-    display: flex;
-    margin-right: auto;
+    margin: auto;
     height: 100px;
-    width: 400px;
+    width: 500px;
 }
 
 .title-menu h1 {
@@ -42,13 +41,8 @@ header {
 }
 
 main {
-    width: 100%;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    justify-content: center;
     padding: 30px 30px;
-}
-
-.container {
-    font-size: medium;
+    font-size: var(--font-size);
 }

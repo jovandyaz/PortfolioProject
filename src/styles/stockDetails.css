@@ -1,0 +1,23 @@
+.grid-stocks {
+    display: grid;
+    grid-template-columns: repeat(4, 150px);
+    gap: 0.5em;
+    background: var(--bg-shadow);
+}
+
+.grid-stocks .title {
+    display: flex;
+    justify-content: center;
+    font-size: 1.5rem;
+    border: 1px solid var(--bg-accent);
+    padding: 10px;
+    background: var(--bg-shadow);
+}
+
+.grid-stocks .data {
+    display: flex;
+    justify-content: center;
+    font-size: 1.5rem;
+    padding: 5px;
+    background: var(--bg-shadow);
+}
