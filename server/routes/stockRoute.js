@@ -1,3 +1,4 @@
+const { getNodeText } = require('@testing-library/react')
 const express = require('express')
 const router = express.Router()
 const Portfolio = require('../models/portfolioModel')
@@ -43,20 +44,28 @@ router.post('/stock', async (req, res) => {
     const newStock = new Stock(req.body)
     newStock.totalCost = newStock.amount * newStock.price
     newStock.totalCostFee = (newStock.totalCost * (newStock.percentFee / 100)).toFixed(2)
+    newStock.remainingAmount = newStock.amount
+
     try {
         const cashPortf = await Portfolio.findById({ _id: newStock.portfolio }, { portfolioName: 1, totalCash: 1 })
         if (cashPortf.totalCash - (newStock.totalCost + newStock.totalCostFee) >= 0) {
             newStock.save(async (err, res) => {
                 await Portfolio.findByIdAndUpdate(
                     { _id: newStock.portfolio },
-                    { $push: { stocks: newStock._id } })
+                    {
+                        $push: { stocks: newStock._id },
+                        totalCash: cashPortf.totalCash - (newStock.totalCost + newStock.totalCostFee),
+                        $inc: { lotsHistory: 1 }
+                    })
+                const lotPortf = await Portfolio.findById({ _id: newStock.portfolio }, { lotsHistory: 1, stocks: 1 })
+                await Stock.findByIdAndUpdate(
+                    { _id: lotPortf.stocks[lotPortf.stocks.length - 1] },
+                    { lotNum: lotPortf.lotsHistory }
+                )
             })
-            await Portfolio.findByIdAndUpdate(
-                { _id: newStock.portfolio },
-                { totalCash: cashPortf.totalCash - (newStock.totalCost + newStock.totalCostFee), }
-            )
             res.json({ message: "Stock saved" })
-        } else { res.json({ message: "Failed" }) }
+        } else { res.json({ message: "Insufficient funds" }) }
+
     } catch (err) {
         res.json({ Error: err })
     }

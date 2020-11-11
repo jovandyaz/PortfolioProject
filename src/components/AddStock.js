@@ -53,7 +53,7 @@ class AddStock extends Component {
                             <option value="Buy">Buy</option>
                             <option value="Sell">Sell</option>
                         </select>
-                        <label htmlFor="stock-amount">Amount:</label>
+                        <label htmlFor="stock-amount">Quantity:</label>
                         <input id="stock-amount" type="number" min="0" placeholder="Shares (#)" required name="amount" value={this.state.name} onChange={this.updateHandler} />
                         <label htmlFor="stock-price">Price:</label>
                         <input id="stock-price" type="number" min="0.00" placeholder="Price ($)" required name="price" value={this.state.name} onChange={this.updateHandler} />
