@@ -35,7 +35,7 @@ class ShowStocks extends Component {
             <React.Fragment>
                     <div className="col data symbol">{stock.symbol}</div>
                     <div className="col data avCost">${stock.averageCost}</div>
-                    <div className="col data quantity">{stock.totalAmount}</div>
+                    <div className="col data quantity">{stock.totalRemaining}</div>
             </React.Fragment>
         )
     }

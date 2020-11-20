@@ -16,6 +16,9 @@ class LiveStock extends Component {
     //         3000
     //     )
     // }
+    componentDidMount() {
+        this.getLiveStock(this.props.symbol)
+    }
 
     getLiveStock = async (symbol) => {
         this._isMounted = true
@@ -38,7 +41,13 @@ class LiveStock extends Component {
     render() {
         const stock = this.state.stockData
         return (
-            <div className="col data price">${stock.regularMarketPrice}</div>
+            <React.Fragment>
+                { stock.regularMarketPrice !== undefined ?
+                    <div className="col data price">${stock.regularMarketPrice.toFixed(2)}</div>
+                    : <div className="col data price">$0</div>
+                }
+            </React.Fragment>
+
         )
     }
 }

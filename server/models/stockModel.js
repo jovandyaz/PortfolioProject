@@ -11,9 +11,10 @@ const stockSchema = new Schema({
     percentFee: { type: Number, default: 0 },
     totalCostFee: { type: Number, default: 0 },
     priceDate: { type: Date, default: Date.now },  //costo en la fecha de operación
-    remainingAmount: {type: Number, default: 0},
+    remainingAmount: { type: Number, default: 0 },
     lotNum: { type: Number, default: 0 },
     lotStatus: { type: String, trim: true, default: 'Open' },
+    dateStatus: { type: Date, default: Date.now },
     portfolio: { type: Schema.Types.ObjectId, ref: 'Portfolio' }
 })
 

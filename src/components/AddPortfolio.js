@@ -42,7 +42,7 @@ class AddPortfolio extends Component {
                 <input id="portfolio-input" type="text" placeholder="Portfolio" name="portfolio" value={this.state.name} onChange={this.updateHandler} />
                 <select id="select-input" name="current" onChange={this.updateHandler}>
                     <option value="USD">USD</option>
-                    <option value="MXN">MXN</option>
+                    {/* <option value="MXN">MXN</option> */}
                 </select>
                 <button onClick={this.postPortf}>Create</button>
             </form>

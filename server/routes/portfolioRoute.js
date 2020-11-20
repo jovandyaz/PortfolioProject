@@ -13,18 +13,6 @@ router.get('/portfolios', async (req, res) => {
     }
 })
 
-router.get('/portfolios/:names', async (req, res) => {
-    try {
-        const findPortfsNames = await Portfolio
-            .aggregate([{
-                $project: { "portfolioName": 1, "_id": 0 }
-            }])
-        res.json(findPortfsNames)
-    } catch (err) {
-        res.status(500).json({ Error: err })
-    }
-})
-
 router.post('/portfolio', async (req, res) => {
     const newPortf = new Portfolio(req.body)
     const findPortfName = await Portfolio.find({ portfolioName: newPortf.portfolioName }, { portfolioName: 1 })
