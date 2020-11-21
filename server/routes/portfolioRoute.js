@@ -15,18 +15,19 @@ router.get('/portfolios', async (req, res) => {
 
 router.post('/portfolio', async (req, res) => {
     const newPortf = new Portfolio(req.body)
-    const findPortfName = await Portfolio.find({ portfolioName: newPortf.portfolioName }, { portfolioName: 1 })
-    if (findPortfName.length > 0) {
-        if (findPortfName[findPortfName.length - 1].portfolioName.toLowerCase() === newPortf.portfolioName.toLowerCase()) {
+    const portfs = await Portfolio.find({}, { portfolioName: 1, _id: 0 })
+    if (portfs.length > 0) {
+        if (portfs.find(p => p.portfolioName.toLowerCase() === newPortf.portfolioName.toLowerCase())) {
+            console.log("Duplicate")
             res.json({ message: "Duplicate" })
         }
-    }
-    else {
-        try {
-            const savePortf = await newPortf.save()
-            res.json(savePortf)
-        } catch (err) {
-            res.json({ Error: err })
+        else {
+            try {
+                await newPortf.save()
+                res.json({ message: "Saved" })
+            } catch (err) {
+                res.json({ Error: err })
+            }
         }
     }
 })

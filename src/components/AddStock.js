@@ -16,7 +16,7 @@ class AddStock extends Component {
 
     postStock = async () => {
         if (parseFloat(this.state.amount) > 0 && parseFloat(this.state.price) > 0) {
-            if (window.confirm(`Do you want to ${this.state.operation} ${this.props.stockData.symbol}`)) {
+            if (window.confirm(`Do you want to ${this.state.operation}: ${this.props.stockData.symbol}`)) {
                 const stock = this.props.stockData
                 const newStock = {
                     symbol: stock.symbol,
@@ -41,14 +41,14 @@ class AddStock extends Component {
                 else if (this.state.operation === "Sell") {
                     const response = await axios.put("http://localhost:8080/stock", newStock)
                     if (response.data.message === "Failed") {
-                        alert("Insufficient Stocks to sell")
+                        alert("Insufficient Stocks to Sell")
                     }
                     else {
                         this.props.getPortfoliosDB()
-                        alert("Stock sold")
+                        alert("Stock Sold")
                     }
                 }
-            } else alert("Operation canceled")
+            } else alert("Operation Canceled")
         } else alert("Add the info, please")
     }
 

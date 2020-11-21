@@ -38,7 +38,7 @@ class AddPortfolio extends Component {
     render() {
         return (
             <form onSubmit={this.handleSubmit}>
-                <label>Write a new one:</label>
+                <label>Add a New Portfolio:</label>
                 <input id="portfolio-input" type="text" placeholder="Portfolio" name="portfolio" value={this.state.name} onChange={this.updateHandler} />
                 <select id="select-input" name="current" onChange={this.updateHandler}>
                     <option value="USD">USD</option>

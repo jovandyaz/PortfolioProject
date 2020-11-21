@@ -107,8 +107,8 @@ router.put('/stock', async (req, res) => {
                         if ((e.remainingAmount - newStock.remainingAmount) < 0) {
                             console.log(`el total de la venta es mayor a las acciones en el lote ${e.lotNum}`)
                             console.log("Diferencia: ", e.remainingAmount - newStock.remainingAmount)
-                            await Stock.findOneAndUpdate(
-                                { _id: e._id, lotNum: e.lotNum },
+                            await Stock.findByIdAndUpdate(
+                                { _id: e._id},
                                 { remainingAmount: 0, lotStatus: "Closed" })
                                 .then(res => console.log("res:", res))
                                 .catch(err => console.log("err:", err))
@@ -118,14 +118,14 @@ router.put('/stock', async (req, res) => {
                             console.log(`el total de la venta es menor o igual a las acciones en el lote ${e.lotNum}`)
                             console.log("newStock.remainingAmount (before):", newStock.remainingAmount)
                             if (e.remainingAmount - newStock.remainingAmount === 0) {
-                                await Stock.findOneAndUpdate(
-                                    { _id: e._id, lotNum: e.lotNum },
+                                await Stock.findByIdAndUpdate(
+                                    { _id: e._id},
                                     { remainingAmount: 0, lotStatus: "Closed" })
                                     .then(res => console.log("res:", res))
                                     .catch(err => console.log("err:", err))
                             } else {
-                                await Stock.findOneAndUpdate(
-                                    { _id: e._id, lotNum: e.lotNum },
+                                await Stock.findByIdAndUpdate(
+                                    { _id: e._id},
                                     { $inc: { remainingAmount: - newStock.remainingAmount } })
                                     .then(res => console.log("res:", res))
                                     .catch(err => console.log("err:", err))

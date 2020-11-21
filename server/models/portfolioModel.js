@@ -10,6 +10,8 @@ const portfolioSchema = new Schema({
     current: { type: String, trim: true, default: 'USD' },
     date: { type: Date, default: Date.now },
     lotsHistory: { type: Number, default: 0 },
+    status: { type: String, trim: true, default: 'Active' },
+    dateStatus: { type: Date, default: Date.now },
     stocks: [{ type: Schema.Types.ObjectId, ref: 'Stock' }],
     cash: [{ type: Schema.Types.ObjectId, ref: 'Cash' }]
 })

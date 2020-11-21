@@ -26,12 +26,15 @@ class Portfolios extends Component {
         return (
             <React.Fragment>
                 {portfs !== undefined && portfs.length !== 0
-                    ? <div>
+                    ?
+                    <div>
                         {portfs.map(m => <Portfolio key={m._id} portfolio={m} />)}
                         <br />
                         <AddPortfolio getPortfoliosDB={this.getPortfoliosDB} />
                     </div>
-                    : <div>Loading...</div>}
+                    :
+                    <AddPortfolio getPortfoliosDB={this.getPortfoliosDB} />
+                }
             </React.Fragment>
         )
     }

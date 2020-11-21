@@ -12,6 +12,8 @@ const stockSchema = new Schema({
     totalCostFee: { type: Number, default: 0 },
     priceDate: { type: Date, default: Date.now },  //costo en la fecha de operación
     remainingAmount: { type: Number, default: 0 },
+    unrealizedPL: { type: Number, default: 0 },
+    realizedPL: { type: Number, default: 0 },
     lotNum: { type: Number, default: 0 },
     lotStatus: { type: String, trim: true, default: 'Open' },
     dateStatus: { type: Date, default: Date.now },
