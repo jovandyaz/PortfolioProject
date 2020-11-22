@@ -22,22 +22,22 @@ router.get('/stocks/:idPortf/:symbol', async (req, res) => {
             lotStatus: "Open"
         })
         // console.log("Matched stocks:\n", findSymbol)
-        let totalRemaining = 0
-        let totalAmount = 0
-        let totalCost = 0
-        findSymbol.forEach(a => {
-            totalRemaining += a.remainingAmount
-            totalAmount += a.amount
-            totalCost += a.price * a.amount
-        })
-        // console.log("totalAmount: ", totalAmount)
-        // console.log("averageCost: ", (totalCost / totalAmount).toFixed(2))
-        const newStock = {}
-        newStock.symbol = symbol
-        newStock.totalRemaining = totalRemaining
-        newStock.totalAmount = totalAmount
-        newStock.averageCost = (totalCost / totalAmount).toFixed(2)
-        res.json(newStock)
+            let totalRemaining = 0
+            let totalAmount = 0
+            let totalCost = 0
+            findSymbol.forEach(a => {
+                totalRemaining += a.remainingAmount
+                totalAmount += a.amount
+                totalCost += a.price * a.amount
+            })
+            // console.log("totalAmount: ", totalAmount)
+            // console.log("averageCost: ", (totalCost / totalAmount).toFixed(2))
+            const matchedStock = {}
+            matchedStock.symbol = symbol
+            matchedStock.totalRemaining = totalRemaining
+            matchedStock.totalAmount = totalAmount
+            matchedStock.averageCost = (totalCost / totalAmount).toFixed(2)
+            res.json(matchedStock)
     } catch (err) {
         res.status(500).json({ Error: err })
     }
@@ -108,7 +108,7 @@ router.put('/stock', async (req, res) => {
                             console.log(`el total de la venta es mayor a las acciones en el lote ${e.lotNum}`)
                             console.log("Diferencia: ", e.remainingAmount - newStock.remainingAmount)
                             await Stock.findByIdAndUpdate(
-                                { _id: e._id},
+                                { _id: e._id },
                                 { remainingAmount: 0, lotStatus: "Closed" })
                                 .then(res => console.log("res:", res))
                                 .catch(err => console.log("err:", err))
@@ -119,13 +119,13 @@ router.put('/stock', async (req, res) => {
                             console.log("newStock.remainingAmount (before):", newStock.remainingAmount)
                             if (e.remainingAmount - newStock.remainingAmount === 0) {
                                 await Stock.findByIdAndUpdate(
-                                    { _id: e._id},
+                                    { _id: e._id },
                                     { remainingAmount: 0, lotStatus: "Closed" })
                                     .then(res => console.log("res:", res))
                                     .catch(err => console.log("err:", err))
                             } else {
                                 await Stock.findByIdAndUpdate(
-                                    { _id: e._id},
+                                    { _id: e._id },
                                     { $inc: { remainingAmount: - newStock.remainingAmount } })
                                     .then(res => console.log("res:", res))
                                     .catch(err => console.log("err:", err))

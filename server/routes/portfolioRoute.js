@@ -5,7 +5,10 @@ const Portfolio = require('../models/portfolioModel')
 router.get('/portfolios', async (req, res) => {
     try {
         const portfs = await Portfolio.find()
-            .populate("stocks")
+            .populate({
+                path: 'stocks',
+                match: { lotStatus: 'Open' }
+            })
             .populate("cash")
         res.json(portfs)
     } catch (err) {
@@ -18,13 +21,12 @@ router.post('/portfolio', async (req, res) => {
     const portfs = await Portfolio.find({}, { portfolioName: 1, _id: 0 })
     if (portfs.length > 0) {
         if (portfs.find(p => p.portfolioName.toLowerCase() === newPortf.portfolioName.toLowerCase())) {
-            console.log("Duplicate")
-            res.json({ message: "Duplicate" })
+            res.json({ message: "The portfolio already exists" })
         }
         else {
             try {
                 await newPortf.save()
-                res.json({ message: "Saved" })
+                res.json({ message: "The portfolio was successfully saved" })
             } catch (err) {
                 res.json({ Error: err })
             }
