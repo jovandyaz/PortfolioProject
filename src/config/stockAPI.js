@@ -1,5 +1,5 @@
 import axios from "axios"
-const API_KEY = process.env.REACT_APP_GOOGLE_KEY  
+const API_KEY = process.env.REACT_APP_FB_KEY  
 const API_URL = process.env.REACT_APP_QUOTE_URL
 
 export const stockAPI = {

@@ -22,22 +22,20 @@ router.get('/stocks/:idPortf/:symbol', async (req, res) => {
             lotStatus: "Open"
         })
         // console.log("Matched stocks:\n", findSymbol)
-            let totalRemaining = 0
-            let totalAmount = 0
-            let totalCost = 0
-            findSymbol.forEach(a => {
-                totalRemaining += a.remainingAmount
-                totalAmount += a.amount
-                totalCost += a.price * a.amount
-            })
-            // console.log("totalAmount: ", totalAmount)
-            // console.log("averageCost: ", (totalCost / totalAmount).toFixed(2))
-            const matchedStock = {}
-            matchedStock.symbol = symbol
-            matchedStock.totalRemaining = totalRemaining
-            matchedStock.totalAmount = totalAmount
-            matchedStock.averageCost = (totalCost / totalAmount).toFixed(2)
-            res.json(matchedStock)
+        let totalRemaining = 0
+        let totalAmount = 0
+        let totalCost = 0
+        findSymbol.forEach(a => {
+            totalRemaining += a.remainingAmount
+            totalAmount += a.amount
+            totalCost += a.price * a.amount
+        })
+        const matchedStock = {}
+        matchedStock.symbol = symbol
+        matchedStock.totalRemaining = totalRemaining
+        matchedStock.totalAmount = totalAmount
+        matchedStock.averageCost = (totalCost / totalAmount).toFixed(2)
+        res.json(matchedStock)
     } catch (err) {
         res.status(500).json({ Error: err })
     }
@@ -59,10 +57,10 @@ router.post('/stock', async (req, res) => {
                         totalCash: cashPortf.totalCash - (newStock.totalCost + newStock.totalCostFee),
                         $inc: { lotsHistory: 1 }
                     })
-                const lotPortf = await Portfolio.findById({ _id: newStock.portfolio }, { lotsHistory: 1, stocks: 1 })
+                const portf = await Portfolio.findById({ _id: newStock.portfolio }, { lotsHistory: 1, stocks: 1 })
                 await Stock.findByIdAndUpdate(
-                    { _id: lotPortf.stocks[lotPortf.stocks.length - 1] },
-                    { lotNum: lotPortf.lotsHistory }
+                    { _id: portf.stocks[portf.stocks.length - 1] },
+                    { lotNum: portf.lotsHistory }
                 )
             })
             res.json({ message: "Stock saved" })
@@ -73,71 +71,72 @@ router.post('/stock', async (req, res) => {
 })
 
 router.put('/stock', async (req, res) => {
-    const newStock = new Stock(req.body)
-    newStock.totalCost = newStock.amount * newStock.price
-    newStock.totalCostFee = (newStock.totalCost * (newStock.percentFee / 100)).toFixed(2)
-    newStock.remainingAmount = newStock.amount
-    console.log("Stock to Sell:\n", newStock)
+    const sellStock = new Stock(req.body)
+    sellStock.totalCost = sellStock.amount * sellStock.price
+    sellStock.totalCostFee = (sellStock.totalCost * (sellStock.percentFee / 100)).toFixed(2)
+    sellStock.remainingAmount = sellStock.amount
+    sellStock.realizedPL = 0
     try {
         const matchedStocks = await Stock.find(
-            { portfolio: newStock.portfolio, symbol: newStock.symbol, operation: "Buy", lotStatus: "Open" },
-            { symbol: 1, amount: 1, remainingAmount: 1, lotNum: 1 }).sort({ lotNum: 1 })
+            { portfolio: sellStock.portfolio, symbol: sellStock.symbol, operation: "Buy", lotStatus: "Open" },
+            { symbol: 1, amount: 1, price: 1, remainingAmount: 1, lotNum: 1 }).sort({ lotNum: 1 })
         console.log("matchedStocks:", matchedStocks)
         let totalStocks = 0
         matchedStocks.forEach(s => totalStocks += s.remainingAmount)
 
-        if (newStock.amount <= totalStocks) {
-            const cashPortf = await Portfolio.findById({ _id: newStock.portfolio }, { portfolioName: 1, totalCash: 1 })
-            newStock.save(async (err, res) => {
+        if (sellStock.amount <= totalStocks) {
+            const cashPortf = await Portfolio.findById({ _id: sellStock.portfolio }, { portfolioName: 1, totalCash: 1 })
+            sellStock.save(async (err, res) => {
                 await Portfolio.findByIdAndUpdate(
-                    { _id: newStock.portfolio },
+                    { _id: sellStock.portfolio },
                     {
-                        $push: { stocks: newStock._id },
-                        totalCash: cashPortf.totalCash + (newStock.totalCost - newStock.totalCostFee),
+                        $push: { stocks: sellStock._id },
+                        totalCash: cashPortf.totalCash + (sellStock.totalCost - sellStock.totalCostFee),
                         $inc: { lotsHistory: 1 }
                     })
-
-                const lotPortf = await Portfolio.findById({ _id: newStock.portfolio }, { lotsHistory: 1, stocks: 1 })
+                const updatedPortf = await Portfolio.findById({ _id: sellStock.portfolio }, { lotsHistory: 1, stocks: 1 })
                 await Stock.findByIdAndUpdate(
-                    { _id: lotPortf.stocks[lotPortf.stocks.length - 1] },
-                    { lotNum: lotPortf.lotsHistory })
+                    { _id: updatedPortf.stocks[updatedPortf.stocks.length - 1] },
+                    { lotNum: updatedPortf.lotsHistory })
 
+                var multipleLots = false
                 for (let e of matchedStocks) {
-                    if (newStock.remainingAmount > 0) {
-                        if ((e.remainingAmount - newStock.remainingAmount) < 0) {
+                    if (sellStock.remainingAmount > 0) {
+                        if ((e.remainingAmount - sellStock.remainingAmount) < 0) {
                             console.log(`el total de la venta es mayor a las acciones en el lote ${e.lotNum}`)
-                            console.log("Diferencia: ", e.remainingAmount - newStock.remainingAmount)
+                            sellStock.realizedPL = sellStock.totalCost - (e.price * e.remainingAmount)
+                            sellStock.remainingAmount -= e.remainingAmount
                             await Stock.findByIdAndUpdate(
                                 { _id: e._id },
                                 { remainingAmount: 0, lotStatus: "Closed" })
-                                .then(res => console.log("res:", res))
-                                .catch(err => console.log("err:", err))
-                            newStock.remainingAmount -= e.remainingAmount
-                            console.log("newStock.remainingAmount:", newStock.remainingAmount)
+                            multipleLots = true
                         } else {
-                            console.log(`el total de la venta es menor o igual a las acciones en el lote ${e.lotNum}`)
-                            console.log("newStock.remainingAmount (before):", newStock.remainingAmount)
-                            if (e.remainingAmount - newStock.remainingAmount === 0) {
+                            console.log("multipleLots:", multipleLots)
+                            console.log("sellStock.remainingAmount:", sellStock.remainingAmount)
+                            if (e.remainingAmount - sellStock.remainingAmount === 0) {
+                                console.log(`el total de la venta es igual a las acciones en el lote ${e.lotNum}`)
+                                multipleLots
+                                    ? sellStock.realizedPL -= e.price * sellStock.remainingAmount
+                                    : sellStock.realizedPL = sellStock.totalCost - e.price * sellStock.remainingAmount
                                 await Stock.findByIdAndUpdate(
                                     { _id: e._id },
                                     { remainingAmount: 0, lotStatus: "Closed" })
-                                    .then(res => console.log("res:", res))
-                                    .catch(err => console.log("err:", err))
                             } else {
+                                console.log(`el total de la venta es menor a las acciones en el lote ${e.lotNum}`)
+                                multipleLots
+                                    ? sellStock.realizedPL -= e.price * (e.remainingAmount - sellStock.remainingAmount)
+                                    : sellStock.realizedPL = sellStock.totalCost - e.price * (e.remainingAmount - sellStock.remainingAmount)
                                 await Stock.findByIdAndUpdate(
                                     { _id: e._id },
-                                    { $inc: { remainingAmount: - newStock.remainingAmount } })
-                                    .then(res => console.log("res:", res))
-                                    .catch(err => console.log("err:", err))
+                                    { $inc: { remainingAmount: - sellStock.remainingAmount } })
                             }
-                            newStock.remainingAmount = 0
-                            console.log("newStock.remainingAmount (after):", newStock.remainingAmount)
+                            sellStock.remainingAmount = 0
                         }
                     }
                 }
                 await Stock.findByIdAndUpdate(
-                    { _id: lotPortf.stocks[lotPortf.stocks.length - 1] },
-                    { remainingAmount: 0, lotStatus: "Completed" })
+                    { _id: updatedPortf.stocks[updatedPortf.stocks.length - 1] },
+                    { remainingAmount: 0, lotStatus: "Completed", realizedPL: sellStock.realizedPL })
             })
             res.json({ message: "Stock saved" })
         } else { res.json({ message: "Failed" }) }

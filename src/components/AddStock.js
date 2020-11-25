@@ -26,6 +26,7 @@ class AddStock extends Component {
                     price: this.state.price,
                     percentFee: this.state.percentFee,
                     priceDate: this.state.tradeDate,
+                    portfolioName: this.props.portf.portfolioName,
                     portfolio: this.props.portf._id
                 }
                 if (this.state.operation === "Buy") {

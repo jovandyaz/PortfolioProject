@@ -17,6 +17,7 @@ const stockSchema = new Schema({
     lotNum: { type: Number, default: 0 },
     lotStatus: { type: String, trim: true, default: 'Open' },
     dateStatus: { type: Date, default: Date.now },
+    portfolioName: { type: String, trim: true, default: '' },
     portfolio: { type: Schema.Types.ObjectId, ref: 'Portfolio' }
 })
 
