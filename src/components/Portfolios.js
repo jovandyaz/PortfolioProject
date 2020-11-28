@@ -12,7 +12,6 @@ class Portfolios extends Component {
 
     getPortfoliosDB = async () => {
         const response = await axios.get("http://localhost:8080/portfolios")
-        // console.log(response.data)
         this.setState({ portfoliosDB: response.data })
     }
 
